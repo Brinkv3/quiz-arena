@@ -430,3 +430,17 @@ test('a rematched game can be played through again', async () => {
   await room.recordAnswer('ann', q.correct);
   assert.ok(room.s.players.ann.score > 0, 'scoring works after a rematch');
 });
+
+test('a large pack is not truncated below its size', async () => {
+  const { room, host } = await claimed();
+  const big = {
+    title: 'Large',
+    draw: 12,
+    questions: Array.from({ length: 200 }, (_, i) => ({
+      q: 'Q' + i, a: ['a', 'b', 'c', 'd'], correct: 0, seconds: 10,
+    })),
+  };
+  await room.loadQuiz(host, big);
+  assert.equal(room.s.pack.questions.length, 200, 'whole pack retained');
+  assert.equal(room.s.quiz.questions.length, 12, 'round respects draw');
+});
