@@ -204,10 +204,7 @@ footer a{color:var(--ink)}
     <span class="glyphs"><i class="g1"></i><i class="g2"></i><i class="g3"></i><i class="g4"></i></span>
     <span class="word">QUIZ ARENA</span>
   </button>
-  <div style="display:flex;align-items:center;gap:12px">
-    <button class="btn quiet hide" id="btnSound" aria-pressed="false" title="Sound">Sound off</button>
-    <div class="who mono" id="whoami"></div>
-  </div>
+  <div class="who mono" id="whoami"></div>
 </div>
 <canvas id="confetti" aria-hidden="true"></canvas>
 
@@ -396,153 +393,6 @@ let ws = null, role = null, pin = null, hostKey = null, myName = null;
 let params = null, everOpened = false, retries = 0, closing = false;
 let timerId = null;
 
-/* ------------------------------------------------------------------
-   Sound. Everything here is synthesized at runtime: no audio files, no
-   licences, nothing to download. Two layers.
-
-   HUM   two detuned sine voices around 62Hz through a low-pass, always
-         on once started. Meant to be felt rather than heard.
-
-   BOP   a nine beat phrase: three even, three quick, three even, then a
-         rest. The stumble in the middle is what stops the ear filing it
-         away as noise. As a question's clock runs down the phrase repeats
-         sooner and drops in pitch. Tempo stays put, because a speeding
-         pulse in a room full of people reads as stress.
-   ------------------------------------------------------------------ */
-const Sound = (() => {
-  let actx = null, master = null, humGain = null, bopGain = null;
-  let humVoices = [], on = false, loopTimer = null;
-  let urgency = 0; // 0 relaxed .. 1 clock nearly out
-
-  // Nine beats over one bar. Offsets are fractions of the bar.
-  const PHRASE = [0, 0.111, 0.222, 0.389, 0.444, 0.5, 0.667, 0.778, 0.889];
-  const BAR_MS = 2600;
-
-  function ctx() {
-    if (!actx) {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return null;
-      actx = new AC();
-      master = actx.createGain();
-      master.gain.value = 0.9;
-      master.connect(actx.destination);
-      humGain = actx.createGain();
-      humGain.gain.value = 0;
-      bopGain = actx.createGain();
-      bopGain.gain.value = 0;
-      const lp = actx.createBiquadFilter();
-      lp.type = 'lowpass';
-      lp.frequency.value = 220;
-      humGain.connect(lp).connect(master);
-      bopGain.connect(master);
-    }
-    return actx;
-  }
-
-  /** Short percussive tone. Used for the bop and for every UI blip. */
-  function blip(freq, dur, type, peak, dest) {
-    const a = ctx();
-    if (!a) return;
-    const o = a.createOscillator();
-    const g = a.createGain();
-    o.type = type || 'triangle';
-    o.frequency.setValueAtTime(freq, a.currentTime);
-    g.gain.setValueAtTime(0.0001, a.currentTime);
-    g.gain.exponentialRampToValueAtTime(peak, a.currentTime + 0.008);
-    g.gain.exponentialRampToValueAtTime(0.0001, a.currentTime + dur);
-    o.connect(g).connect(dest || master);
-    o.start();
-    o.stop(a.currentTime + dur + 0.02);
-  }
-
-  function startHum() {
-    const a = ctx();
-    if (!a || humVoices.length) return;
-    for (const detune of [-6, 7]) {
-      const o = a.createOscillator();
-      o.type = 'sine';
-      o.frequency.value = 62;
-      o.detune.value = detune;
-      o.connect(humGain);
-      o.start();
-      humVoices.push(o);
-    }
-    humGain.gain.setTargetAtTime(0.16, a.currentTime, 1.2);
-  }
-
-  function playPhrase() {
-    const a = ctx();
-    if (!a || !on) return;
-    // Lower and slightly louder as the clock runs out.
-    const base = 196 - urgency * 34;
-    PHRASE.forEach((offset, i) => {
-      // The quick middle three sit a little higher and softer.
-      const mid = i >= 3 && i <= 5;
-      const freq = base * (mid ? 1.5 : 1) * (i === 8 ? 0.75 : 1);
-      const peak = (mid ? 0.05 : 0.075) * (0.85 + Math.random() * 0.3) * (1 + urgency * 0.35);
-      // Occasionally let the last beat fall away.
-      if (i === 8 && Math.random() < 0.35) return;
-      setTimeout(() => {
-        if (on) blip(freq, mid ? 0.07 : 0.11, 'triangle', peak, bopGain);
-      }, offset * BAR_MS);
-    });
-  }
-
-  return {
-    get enabled() { return on; },
-
-    /** Must be called from a click: browsers block audio otherwise. */
-    async toggle() {
-      const a = ctx();
-      if (!a) return false;
-      if (a.state === 'suspended') await a.resume();
-      on = !on;
-      if (on) {
-        startHum();
-        bopGain.gain.setTargetAtTime(1, a.currentTime, 0.4);
-      } else {
-        humGain.gain.setTargetAtTime(0, a.currentTime, 0.5);
-        bopGain.gain.setTargetAtTime(0, a.currentTime, 0.3);
-        clearInterval(loopTimer);
-        loopTimer = null;
-      }
-      return on;
-    },
-
-    /** Run the phrase for the length of a question, tightening as it goes. */
-    bed(seconds) {
-      if (!on) return;
-      clearInterval(loopTimer);
-      const started = Date.now();
-      urgency = 0;
-      playPhrase();
-      loopTimer = setInterval(() => {
-        const elapsed = (Date.now() - started) / 1000;
-        urgency = Math.max(0, Math.min(1, elapsed / Math.max(1, seconds)));
-        if (elapsed > seconds + 1) return this.rest();
-        playPhrase();
-      }, BAR_MS * (1 - urgency * 0.18));
-    },
-
-    /** Stop the pulse but leave the hum breathing underneath. */
-    rest() {
-      clearInterval(loopTimer);
-      loopTimer = null;
-      urgency = 0;
-    },
-
-    tap() { if (on) blip(440, 0.06, 'square', 0.09); },
-    lock() { if (on) { blip(523, 0.07, 'square', 0.1); setTimeout(() => blip(784, 0.09, 'square', 0.09), 70); } },
-    right() { if (on) [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => blip(f, 0.16, 'triangle', 0.12), i * 90)); },
-    wrong() { if (on) { blip(150, 0.22, 'sawtooth', 0.09); setTimeout(() => blip(110, 0.3, 'sawtooth', 0.08), 110); } },
-    fanfare() {
-      if (!on) return;
-      [523, 659, 784, 1047, 1319].forEach((f, i) =>
-        setTimeout(() => blip(f, 0.32, 'triangle', 0.13), i * 130));
-    },
-  };
-})();
-
 /* ---------- confetti ---------- */
 function confetti() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -616,10 +466,7 @@ function fail(msg) {
   b.classList.remove('hide');
   setTimeout(() => b.classList.add('hide'), 7000);
 }
-const whoami = (t) => {
-  $('whoami').textContent = t || '';
-  $('btnSound').classList.toggle('hide', !t);
-};
+const whoami = (t) => ($('whoami').textContent = t || '');
 const conn = (t) => ($('connState').textContent = t || '');
 
 /* ---------- remembered session ---------- */
@@ -763,13 +610,11 @@ function hostQuestion(m) {
     box.appendChild(d);
   });
   runTimer(m.seconds, $('hqBar'), null);
-  Sound.bed(m.seconds);
   show('s-hq');
 }
 
 function hostReveal(m) {
   clearInterval(timerId);
-  Sound.rest();
   $('hrNum').textContent = m.isLast ? 'Last question' : '';
   const top = Math.max(1, ...m.tally);
   const box = $('hrTally');
@@ -818,8 +663,6 @@ function hostFinal(m) {
   }
   drawBoard($('hfBoard'), b);
   show('s-hf');
-  Sound.rest();
-  Sound.fanfare();
   confetti();
 }
 
@@ -838,7 +681,6 @@ function playerQuestion(m) {
       [...pads.children].forEach((c) => { c.disabled = true; });
       b.classList.add('chosen');
       $('paNum').textContent = 'Locked in. Hold tight.';
-      Sound.lock();
     };
     pads.appendChild(b);
   }
@@ -848,14 +690,11 @@ function playerQuestion(m) {
     $('paNum').textContent = 'Already answered. Hold tight.';
   }
   runTimer(m.seconds, $('paBar'), $('paClock'));
-  if (!m.answered) Sound.bed(m.seconds);
   show('s-pa');
 }
 
 function playerResult(m) {
   clearInterval(timerId);
-  Sound.rest();
-  m.correct ? Sound.right() : Sound.wrong();
   $('prVerdict').className = 'verdict ' + (m.correct ? 'hit' : 'miss');
   $('prHead').textContent = m.correct ? 'Correct' : (m.answered ? 'Not that one' : 'Too slow');
   $('prPts').textContent = m.gained ? '+' + m.gained : '+0';
@@ -870,8 +709,6 @@ function playerFinal(m) {
   $('pfPts').textContent = m.score + ' points';
   drawBoard($('pfBoard'), m.podium);
   show('s-pf');
-  Sound.rest();
-  Sound.fanfare();
   if (m.rank <= 3) confetti();
 }
 
@@ -1081,7 +918,6 @@ function goHome() {
 
 function leaveGame() {
   closing = true;
-  Sound.rest();
   clearInterval(timerId);
   try { if (ws) ws.close(); } catch (_) {}
   ws = null;
@@ -1097,13 +933,6 @@ function leaveGame() {
 }
 $('btnLeave').onclick = leaveGame;
 $('btnLeaveMid').onclick = leaveGame;
-
-$('btnSound').onclick = async () => {
-  const now = await Sound.toggle();
-  $('btnSound').textContent = now ? 'Sound on' : 'Sound off';
-  $('btnSound').setAttribute('aria-pressed', String(now));
-  if (now) Sound.tap();
-};
 
 $('btnBegin').onclick = () => send({ t: 'start' });
 $('btnSkip').onclick = () => send({ t: 'skip' });

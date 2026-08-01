@@ -84,6 +84,12 @@ framework.
 Players can only join before question one. A room deletes itself after six idle
 hours, so PINs recycle.
 
+The podium throws confetti, drawn on a canvas and skipped entirely when the
+browser asks for reduced motion.
+
+There is no sound. A generated audio bed was built and then removed: it is kept
+in `parked/sound-engine.js` with notes on how to wire it back in.
+
 ## Getting out
 
 The logo in the header is the way back. It is inert on the front page and turns
@@ -94,35 +100,6 @@ consequences asks first.
 This matters most when the site has been added to a phone's home screen, since a
 standalone window has no browser back button. Players can also leave from the
 buttons on the result and final screens.
-
-## Sound
-
-Off by default. The toggle appears in the header once you are in a game, and it
-has to be pressed by hand because browsers block audio that starts on its own.
-
-There are no audio files. Everything is synthesized in the browser with the Web
-Audio API, so there is nothing to download and nothing to license. Two layers run
-during a question: a low hum from two slightly detuned sine voices, and a nine
-beat phrase, three even, three quick, three even. As the clock runs down the
-phrase repeats a little sooner and drops in pitch. Tempo stays where it is, on
-the theory that a speeding pulse in a room full of people reads as stress rather
-than fun.
-
-Answering, getting it right, getting it wrong, and the final podium each have
-their own short cue. The podium also throws confetti, drawn on a canvas and
-skipped entirely when the browser asks for reduced motion.
-
-### If a connection drops
-
-Sockets reconnect on their own, backing off over eight attempts. A player who
-rejoins mid-question gets the question with the correct time remaining and is
-locked out if they already answered.
-
-If a tab is closed entirely, reopening the site offers to rejoin the game that
-tab was in. The host key is what proves you are the host, so a host who reopens
-the site in the same browser session can take the game back over. In a different
-browser, or after the browser is fully closed, the key is gone and so is host
-control.
 
 ## Quiz packs
 
@@ -173,6 +150,7 @@ src/index.js              Worker: PIN minting, rate limit, WebSocket routing, Ga
 public/index.html         host screen, player screen, quiz editor
 public/quizzes/           quiz packs plus manifest.json
 test/room.test.js         state machine tests
+parked/sound-engine.js    generated audio, removed but kept for later
 wrangler.jsonc            bindings and the SQLite Durable Object migration
 ```
 
