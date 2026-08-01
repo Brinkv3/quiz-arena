@@ -1,0 +1,16 @@
+{
+  "title": "AI Governance Basics",
+  "slug": "ai-governance",
+  "questions": [
+    { "q": "What does the NIST AI Risk Management Framework organize its core around?", "a": ["Four functions", "Seven pillars", "Twelve controls", "Three tiers"], "correct": 0, "seconds": 20 },
+    { "q": "The four NIST AI RMF core functions are Govern, Map, Measure, and what?", "a": ["Monitor", "Mitigate", "Manage", "Model"], "correct": 2, "seconds": 20 },
+    { "q": "The EU AI Act sorts systems primarily by what?", "a": ["Model size", "Risk level", "Sector", "Country of origin"], "correct": 1, "seconds": 20 },
+    { "q": "Which standard covers AI management systems?", "a": ["ISO/IEC 42001", "ISO 9001", "ISO 27001", "ISO 31000"], "correct": 0, "seconds": 20 },
+    { "q": "In an agent system, an autonomy tier mainly defines what?", "a": ["Model temperature", "How much acts without approval", "Token budget", "Retry count"], "correct": 1, "seconds": 20 },
+    { "q": "What is the point of an immutable audit log for agent actions?", "a": ["Faster inference", "Lower cost", "Reconstructing what happened", "Better prompts"], "correct": 2, "seconds": 20 },
+    { "q": "Human-in-the-loop review is most valuable at which point?", "a": ["Before a consequential action", "After deployment", "During training", "At model selection"], "correct": 0, "seconds": 20 },
+    { "q": "A guardrail that blocks PII from leaving a system is an example of what?", "a": ["Detective control", "Preventive control", "Corrective control", "Compensating control"], "correct": 1, "seconds": 20 },
+    { "q": "Model cards are primarily a tool for what?", "a": ["Compression", "Documentation and transparency", "Fine-tuning", "Load balancing"], "correct": 1, "seconds": 20 },
+    { "q": "Why does provenance matter in a retrieval pipeline?", "a": ["It speeds up search", "It reduces embedding size", "It lets you trace an answer to its source", "It improves chunking"], "correct": 2, "seconds": 20 }
+  ]
+}

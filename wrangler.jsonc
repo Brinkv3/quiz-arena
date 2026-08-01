@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "quiz-arena",
+  "main": "src/index.js",
+  "compatibility_date": "2026-05-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "ROOMS", "class_name": "GameRoom" }]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      // SQLite-backed classes are the only kind available on the free plan.
+      "new_sqlite_classes": ["GameRoom"]
+    }
+  ],
+  "observability": { "enabled": true }
+}

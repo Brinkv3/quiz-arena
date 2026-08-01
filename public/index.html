@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quiz Arena</title>
+<style>
+/* No web fonts and no CDN. Everything here ships with the operating system,
+   so the page renders identically offline and on a locked-down network. */
+:root{
+  --ink:#111111;
+  --paper:#ffffff;
+  --red:#e5322d;
+  --blue:#1b44c8;
+  --yellow:#ffc400;
+  --green:#12a150;
+  --rule:4px solid var(--ink);
+  --drop:8px 8px 0 var(--ink);
+  --drop-sm:4px 4px 0 var(--ink);
+  --display:'Arial Black','Helvetica Neue',Impact,system-ui,sans-serif;
+  --body:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:var(--body);font-weight:500;font-size:17px;line-height:1.35;
+  -webkit-text-size-adjust:100%;
+}
+h1,h2,h3,.display{font-family:var(--display);font-weight:900;letter-spacing:-.02em;margin:0}
+.mono{font-family:var(--mono)}
+
+.wrap{max-width:1000px;margin:0 auto;padding:20px 18px 64px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:var(--rule);padding-bottom:12px;margin-bottom:22px}
+.mark{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:900;font-size:19px;letter-spacing:-.03em}
+.mark .glyphs{display:flex;gap:5px}
+.mark i{width:14px;height:14px;display:block}
+.mark .g1{background:var(--red);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.mark .g2{background:var(--blue);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.mark .g3{background:var(--yellow);border-radius:50%}
+.mark .g4{background:var(--green)}
+.topbar .who{font-size:13px;text-transform:uppercase;letter-spacing:.1em;text-align:right}
+
+.screen{display:none}
+.screen.on{display:block}
+
+button{font-family:inherit;font-weight:700;color:var(--ink);cursor:pointer}
+.btn{
+  background:var(--paper);border:var(--rule);box-shadow:var(--drop-sm);
+  padding:14px 22px;font-size:17px;text-transform:uppercase;letter-spacing:.06em;
+  transition:transform .06s,box-shadow .06s;
+}
+.btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+.btn:active{transform:translate(4px,4px);box-shadow:none}
+.btn.quiet{box-shadow:none;border-width:3px;padding:10px 16px;font-size:14px}
+.btn.quiet:hover{transform:none;background:var(--yellow)}
+.btn[disabled]{opacity:.35;cursor:not-allowed;transform:none;box-shadow:var(--drop-sm)}
+
+.launch{
+  background:var(--red);color:var(--paper);border:var(--rule);box-shadow:var(--drop);
+  font-family:var(--display);font-weight:900;font-size:clamp(38px,9vw,64px);letter-spacing:.02em;
+  padding:26px 20px;width:100%;text-transform:uppercase;line-height:1;
+  transition:transform .07s,box-shadow .07s;
+}
+.launch:hover{transform:translate(4px,4px);box-shadow:4px 4px 0 var(--ink)}
+.launch:active{transform:translate(8px,8px);box-shadow:none}
+.launch[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:var(--drop)}
+
+.hero{border:var(--rule);box-shadow:var(--drop);padding:28px;margin-bottom:26px}
+.hero h1{font-size:clamp(38px,9.5vw,80px);line-height:.94;text-transform:uppercase}
+.hero p{margin:14px 0 0;max-width:44ch}
+.bars{display:flex;height:22px;margin-top:22px;border:3px solid var(--ink)}
+.bars span{flex:1}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:720px){.split{grid-template-columns:1fr}}
+.card{border:var(--rule);box-shadow:var(--drop-sm);padding:22px}
+.card h2{font-size:24px;text-transform:uppercase;margin-bottom:6px}
+.card .lede{font-size:15px;margin:0 0 18px}
+
+label.field{display:block;margin-bottom:14px}
+label.field span{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}
+input[type=text],input[type=number],select,textarea{
+  font-family:inherit;font-size:17px;width:100%;padding:12px 14px;
+  border:3px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:0;
+}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:4px solid var(--blue);outline-offset:2px}
+input.pin{font-family:var(--mono);font-size:30px;letter-spacing:.35em;text-align:center}
+
+.pinrow{display:flex;gap:8px;flex-wrap:wrap}
+.pintile{
+  font-family:var(--mono);font-size:clamp(34px,9vw,64px);line-height:1;
+  border:var(--rule);box-shadow:var(--drop-sm);padding:10px 4px;width:clamp(48px,12vw,84px);
+  text-align:center;background:var(--paper);
+}
+.pintile:nth-child(3n+1){background:var(--yellow)}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;min-height:44px}
+.chip{border:3px solid var(--ink);padding:7px 12px;font-weight:700;font-size:15px;background:var(--paper)}
+.chip:nth-child(4n+2){background:var(--yellow)}
+.chip:nth-child(4n+3){background:var(--blue);color:var(--paper)}
+.chip:nth-child(4n+4){background:var(--green);color:var(--paper)}
+.empty{border:3px dashed var(--ink);padding:16px;font-size:15px}
+
+.qhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:13px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px}
+.qtext{font-family:var(--display);font-weight:900;font-size:clamp(26px,5.2vw,46px);line-height:1.05;border:var(--rule);box-shadow:var(--drop);padding:24px;margin-bottom:18px}
+.timer{height:26px;border:3px solid var(--ink);margin-bottom:18px;overflow:hidden}
+.timer i{display:block;height:100%;background:var(--red);width:100%;transition:width .25s linear}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.grid4{grid-template-columns:1fr}}
+.opt{
+  display:flex;align-items:center;gap:14px;border:var(--rule);box-shadow:var(--drop-sm);
+  padding:18px;font-weight:700;font-size:19px;text-align:left;background:var(--paper);width:100%;
+}
+.opt .sh{width:30px;height:30px;flex:0 0 30px;display:block}
+.opt.c0 .sh{background:var(--red);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.opt.c1 .sh{background:var(--blue);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.opt.c2 .sh{background:var(--yellow);border-radius:50%}
+.opt.c3 .sh{background:var(--green)}
+
+.pads{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:620px;margin:0 auto}
+.pad{position:relative;border:var(--rule);box-shadow:var(--drop);min-height:130px;display:flex;align-items:center;justify-content:center;background:var(--paper)}
+.pad .key{position:absolute;top:9px;left:12px;font-family:var(--mono);font-size:15px;display:none}
+@media(pointer:fine){.pad .key{display:block}}
+.pad i{width:56px;height:56px;display:block}
+.pad.c0 i{background:var(--red);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.pad.c1 i{background:var(--blue);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.pad.c2 i{background:var(--yellow);border-radius:50%}
+.pad.c3 i{background:var(--green)}
+.pad:active{transform:translate(6px,6px);box-shadow:none}
+.pad[disabled]{opacity:.25}
+.pad.chosen[disabled]{opacity:1;background:var(--yellow)}
+
+.tally{display:grid;gap:10px;margin-bottom:20px}
+.tallyrow{display:flex;align-items:center;gap:12px}
+.tallyrow .sh{width:26px;height:26px;flex:0 0 26px}
+.tallyrow.c0 .sh{background:var(--red);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.tallyrow.c1 .sh{background:var(--blue);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.tallyrow.c2 .sh{background:var(--yellow);border-radius:50%}
+.tallyrow.c3 .sh{background:var(--green)}
+.tallyrow .bar{flex:1;height:26px;border:3px solid var(--ink)}
+.tallyrow .bar i{display:block;height:100%;background:var(--ink);width:0;transition:width .5s}
+.tallyrow .n{font-family:var(--mono);width:3ch;text-align:right}
+
+.board{border:var(--rule);box-shadow:var(--drop-sm)}
+.board div{display:flex;justify-content:space-between;gap:14px;padding:12px 16px;border-bottom:3px solid var(--ink);font-weight:700}
+.board div:last-child{border-bottom:0}
+.board div:first-child{background:var(--yellow)}
+.board .pts{font-family:var(--mono)}
+
+.verdict{border:var(--rule);box-shadow:var(--drop);padding:34px 24px;text-align:center;margin-bottom:20px}
+.verdict.hit{background:var(--green);color:var(--paper)}
+.verdict.miss{background:var(--red);color:var(--paper)}
+.verdict h2{font-size:clamp(32px,9vw,56px);text-transform:uppercase}
+.verdict .pts{font-family:var(--mono);font-size:30px;margin-top:10px}
+
+.podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:end;margin-bottom:22px}
+.podium .step{border:var(--rule);box-shadow:var(--drop-sm);padding:14px;text-align:center;font-weight:700;display:flex;flex-direction:column;justify-content:flex-end;gap:6px}
+.podium .step .rank{font-family:var(--mono);font-size:34px}
+.podium .s1{background:var(--yellow);min-height:200px}
+.podium .s2{background:var(--blue);color:var(--paper);min-height:150px}
+.podium .s3{background:var(--red);color:var(--paper);min-height:120px}
+
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:20px}
+.note{font-size:14px;border-left:6px solid var(--blue);padding-left:12px;margin-top:16px}
+.err{border:var(--rule);background:var(--red);color:var(--paper);padding:14px;font-weight:700;margin-bottom:18px}
+.resume{border:var(--rule);background:var(--yellow);padding:16px;margin-bottom:22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.hide{display:none !important}
+
+.qcard{border:var(--rule);box-shadow:var(--drop-sm);padding:18px;margin-bottom:16px}
+.qcard .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.qcard .num{font-family:var(--mono);font-size:20px}
+.ansrow{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.ansrow .sh{width:24px;height:24px;flex:0 0 24px}
+.ansrow.c0 .sh{background:var(--red);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.ansrow.c1 .sh{background:var(--blue);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.ansrow.c2 .sh{background:var(--yellow);border-radius:50%}
+.ansrow.c3 .sh{background:var(--green)}
+.ansrow label{display:flex;align-items:center;gap:6px;font-size:12px;text-transform:uppercase;letter-spacing:.1em;white-space:nowrap}
+footer{margin-top:44px;padding-top:16px;border-top:var(--rule);font-size:13px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer a{color:var(--ink)}
+
+@media(prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="topbar">
+  <div class="mark">
+    <span class="glyphs"><i class="g1"></i><i class="g2"></i><i class="g3"></i><i class="g4"></i></span>
+    QUIZ ARENA
+  </div>
+  <div class="who mono" id="whoami"></div>
+</div>
+
+<div id="errbox" class="err hide"></div>
+
+<!-- ============ HOME ============ -->
+<section class="screen on" id="s-home">
+  <div class="resume hide" id="resumeBox">
+    <span id="resumeText"></span>
+    <span class="row" style="margin:0">
+      <button class="btn quiet" id="btnResume">Rejoin</button>
+      <button class="btn quiet" id="btnForget">Forget it</button>
+    </span>
+  </div>
+
+  <div class="hero">
+    <h1>Four shapes.<br>One right answer.</h1>
+    <p>Run a live quiz for up to sixty people. You put the question on the big screen, everyone else answers on their phone or laptop. Fastest correct answer scores the most.</p>
+    <div class="bars">
+      <span style="background:var(--red)"></span>
+      <span style="background:var(--blue)"></span>
+      <span style="background:var(--yellow)"></span>
+      <span style="background:var(--green)"></span>
+    </div>
+  </div>
+
+  <div class="split">
+    <div class="card">
+      <h2>Host a game</h2>
+      <p class="lede">Pick a quiz pack, get a PIN, share the link.</p>
+      <label class="field">
+        <span>Quiz pack</span>
+        <select id="packPick"></select>
+      </label>
+      <button class="launch" id="btnStartHost">Start</button>
+      <div class="row">
+        <button class="btn quiet" id="btnToEditor">Write your own</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Join a game</h2>
+      <p class="lede">Enter the six digits on the host's screen.</p>
+      <label class="field">
+        <span>Game PIN</span>
+        <input class="pin mono" id="joinPin" type="text" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="off">
+      </label>
+      <label class="field">
+        <span>Your name</span>
+        <input id="joinName" type="text" maxlength="16" placeholder="Pick a nickname" autocomplete="off">
+      </label>
+      <button class="btn" id="btnJoin" style="width:100%">Join</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOST LOBBY ============ -->
+<section class="screen" id="s-lobby">
+  <div class="qhead"><span id="lobbyTitle">—</span><span id="lobbyCount">0 players</span></div>
+  <div class="card" style="margin-bottom:22px">
+    <h2 style="margin-bottom:14px">Game PIN</h2>
+    <div class="pinrow" id="pinTiles"></div>
+    <div class="row">
+      <button class="btn quiet" id="btnCopy">Copy join link</button>
+      <span class="mono" id="joinUrl" style="font-size:13px;word-break:break-all"></span>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:22px">
+    <h2>Who's in</h2>
+    <div class="chips" id="lobbyChips"><div class="empty">Nobody yet. Send them the PIN.</div></div>
+  </div>
+  <button class="launch" id="btnBegin" disabled>Start</button>
+  <p class="note">Players can only join before the first question goes up. If this tab closes, reopen the site and rejoin from the banner.</p>
+</section>
+
+<!-- ============ HOST QUESTION ============ -->
+<section class="screen" id="s-hq">
+  <div class="qhead"><span id="hqNum"></span><span id="hqAnswered">0 answered</span></div>
+  <div class="qtext" id="hqText"></div>
+  <div class="timer"><i id="hqBar"></i></div>
+  <div class="grid4" id="hqOpts"></div>
+  <div class="row"><button class="btn quiet" id="btnSkip">Close the question now</button></div>
+</section>
+
+<!-- ============ HOST REVEAL ============ -->
+<section class="screen" id="s-hr">
+  <div class="qhead"><span>Results</span><span id="hrNum"></span></div>
+  <div class="tally" id="hrTally"></div>
+  <div class="board" id="hrBoard"></div>
+  <button class="launch" id="btnNext" style="margin-top:22px">Next</button>
+</section>
+
+<!-- ============ HOST FINAL ============ -->
+<section class="screen" id="s-hf">
+  <div class="qhead"><span>Final standings</span><span id="hfCount"></span></div>
+  <div class="podium" id="hfPodium"></div>
+  <div class="board" id="hfBoard"></div>
+  <div class="row"><button class="btn" id="btnAgain">Run another game</button></div>
+</section>
+
+<!-- ============ PLAYER WAIT ============ -->
+<section class="screen" id="s-pw">
+  <div class="hero">
+    <h1 id="pwHead">You're in.</h1>
+    <p id="pwSub">Keep this tab open. The first question lands on your host's screen.</p>
+    <div class="bars">
+      <span style="background:var(--red)"></span>
+      <span style="background:var(--blue)"></span>
+      <span style="background:var(--yellow)"></span>
+      <span style="background:var(--green)"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLAYER ANSWER ============ -->
+<section class="screen" id="s-pa">
+  <div class="qhead"><span id="paNum"></span><span id="paClock" class="mono"></span></div>
+  <div class="timer"><i id="paBar"></i></div>
+  <div class="pads" id="paPads"></div>
+</section>
+
+<!-- ============ PLAYER RESULT ============ -->
+<section class="screen" id="s-pr">
+  <div class="verdict" id="prVerdict">
+    <h2 id="prHead"></h2>
+    <div class="pts" id="prPts"></div>
+  </div>
+  <div class="card"><h2 id="prRank"></h2><p class="lede" id="prScore"></p></div>
+</section>
+
+<!-- ============ PLAYER FINAL ============ -->
+<section class="screen" id="s-pf">
+  <div class="verdict" id="pfVerdict"><h2 id="pfHead"></h2><div class="pts" id="pfPts"></div></div>
+  <div class="board" id="pfBoard"></div>
+</section>
+
+<!-- ============ EDITOR ============ -->
+<section class="screen" id="s-ed">
+  <div class="qhead"><span>Quiz editor</span><span id="edCount">0 questions</span></div>
+  <div class="card" style="margin-bottom:20px">
+    <label class="field"><span>Quiz title</span><input id="edTitle" type="text" maxlength="80" placeholder="Name this quiz"></label>
+    <label class="field"><span>File name for /quizzes</span><input id="edSlug" type="text" maxlength="40" placeholder="my-quiz"></label>
+  </div>
+  <div id="edList"></div>
+  <div class="row">
+    <button class="btn quiet" id="btnAddQ">Add a question</button>
+    <button class="btn quiet" id="btnExport">Download .json</button>
+    <button class="btn quiet" id="btnImport">Load a .json</button>
+    <input type="file" id="fileIn" accept="application/json" class="hide">
+  </div>
+  <div class="row" style="margin-top:26px">
+    <button class="btn" id="btnHostDraft">Host this quiz</button>
+    <button class="btn quiet" id="btnEdBack">Back</button>
+  </div>
+  <p class="note">Downloaded packs drop straight into <span class="mono">/quizzes</span>. Add the file to <span class="mono">manifest.json</span> and it shows up in the host list for good.</p>
+</section>
+
+<footer>
+  <span>Quiz Arena</span>
+  <span class="mono" id="connState"></span>
+</footer>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+const $ = (id) => document.getElementById(id);
+const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+const SHAPES = ['triangle', 'diamond', 'circle', 'square'];
+
+let ws = null, role = null, pin = null, hostKey = null, myName = null;
+let params = null, everOpened = false, retries = 0, closing = false;
+let timerId = null;
+
+/* ---------- screens ---------- */
+function show(id) {
+  document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('on', s.id === id));
+  window.scrollTo(0, 0);
+}
+function fail(msg) {
+  const b = $('errbox');
+  b.textContent = msg;
+  b.classList.remove('hide');
+  setTimeout(() => b.classList.add('hide'), 7000);
+}
+const whoami = (t) => ($('whoami').textContent = t || '');
+const conn = (t) => ($('connState').textContent = t || '');
+
+/* ---------- remembered session ---------- */
+const remember = (obj) => sessionStorage.setItem('qa', JSON.stringify(obj));
+const forget = () => sessionStorage.removeItem('qa');
+function recall() {
+  try { return JSON.parse(sessionStorage.getItem('qa') || 'null'); } catch (_) { return null; }
+}
+
+/* ---------- quiz packs ---------- */
+async function loadManifest() {
+  const sel = $('packPick');
+  sel.innerHTML = '';
+  try {
+    const packs = await (await fetch('quizzes/manifest.json')).json();
+    for (const p of packs) {
+      const o = el('option', null, p.title + ' (' + p.count + ')');
+      o.value = p.file;
+      sel.appendChild(o);
+    }
+    const want = new URLSearchParams(location.search).get('quiz');
+    if (want) {
+      const hit = packs.find((p) => p.slug === want);
+      if (hit) sel.value = hit.file;
+    }
+  } catch (_) {
+    sel.appendChild(el('option', null, 'No packs found in /quizzes'));
+  }
+}
+
+/* ---------- socket with reconnect ---------- */
+function connect(p) {
+  params = p;
+  everOpened = false;
+  retries = 0;
+  closing = false;
+  openSocket();
+}
+
+function openSocket() {
+  const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+  ws = new WebSocket(proto + '://' + location.host + '/ws?' + new URLSearchParams(params));
+  ws.onopen = () => { everOpened = true; retries = 0; conn('connected'); };
+  ws.onmessage = (e) => handle(JSON.parse(e.data));
+  ws.onclose = () => {
+    if (closing) return;
+    // Never connected on the first try means the server refused us outright.
+    if (!everOpened) {
+      role = null;
+      conn('');
+      forget();
+      show('s-home');
+      showResume();
+      return fail('Could not get in. Check the PIN, or the name may be taken, or the game already started.');
+    }
+    if (retries >= 8) { conn('offline'); return fail('Lost the connection. Reload to rejoin.'); }
+    retries += 1;
+    conn('reconnecting ' + retries + '/8');
+    setTimeout(openSocket, Math.min(600 * retries, 4000));
+  };
+}
+const send = (o) => { if (ws && ws.readyState === 1) ws.send(JSON.stringify(o)); };
+
+/* ---------- host ---------- */
+function enterLobbyUI(p, title) {
+  $('pinTiles').innerHTML = '';
+  for (const d of p) $('pinTiles').appendChild(el('div', 'pintile', d));
+  const link = location.origin + location.pathname + '?pin=' + p;
+  $('joinUrl').textContent = link;
+  $('btnCopy').onclick = () => navigator.clipboard.writeText(link).then(
+    () => { $('btnCopy').textContent = 'Copied'; setTimeout(() => ($('btnCopy').textContent = 'Copy join link'), 1500); },
+    () => fail('Copy failed. Select the link and copy it by hand.')
+  );
+  $('lobbyTitle').textContent = title || 'Quiz';
+  whoami('HOST / ' + p);
+}
+
+async function hostGame(pack) {
+  let made;
+  try {
+    const res = await fetch('api/new', { method: 'POST' });
+    made = await res.json();
+    if (!res.ok) throw new Error(made.error || 'Server said no.');
+  } catch (err) {
+    return fail('Could not open a room. ' + err.message);
+  }
+  pin = made.pin;
+  hostKey = made.hostKey;
+  role = 'host';
+  remember({ role: 'host', pin, hostKey, title: pack.title });
+  enterLobbyUI(pin, pack.title);
+  show('s-lobby');
+  connect({ pin, role: 'host', key: hostKey });
+  setTimeout(() => send({ t: 'load', quiz: pack }), 300);
+}
+
+function resumeHost(saved) {
+  pin = saved.pin;
+  hostKey = saved.hostKey;
+  role = 'host';
+  enterLobbyUI(pin, saved.title);
+  show('s-lobby');
+  connect({ pin, role: 'host', key: hostKey });
+}
+
+function renderRoster(players) {
+  const box = $('lobbyChips');
+  box.innerHTML = '';
+  if (!players.length) {
+    box.appendChild(el('div', 'empty', 'Nobody yet. Send them the PIN.'));
+  } else {
+    for (const p of players) box.appendChild(el('span', 'chip', p.name));
+  }
+  $('lobbyCount').textContent = players.length + (players.length === 1 ? ' player' : ' players');
+  $('btnBegin').disabled = players.length === 0;
+}
+
+function runTimer(seconds, bar, clock) {
+  clearInterval(timerId);
+  const end = Date.now() + seconds * 1000;
+  const tick = () => {
+    const left = Math.max(0, end - Date.now());
+    bar.style.width = (left / (seconds * 1000)) * 100 + '%';
+    if (clock) clock.textContent = Math.ceil(left / 1000) + 's';
+    if (left <= 0) clearInterval(timerId);
+  };
+  tick();
+  timerId = setInterval(tick, 200);
+}
+
+function hostQuestion(m) {
+  $('hqNum').textContent = 'Question ' + (m.index + 1) + ' of ' + m.total;
+  $('hqAnswered').textContent = '0 answered';
+  $('hqText').textContent = m.text;
+  const box = $('hqOpts');
+  box.innerHTML = '';
+  m.answers.forEach((a, i) => {
+    const d = el('div', 'opt c' + i);
+    d.appendChild(el('span', 'sh'));
+    d.appendChild(el('span', null, a));
+    box.appendChild(d);
+  });
+  runTimer(m.seconds, $('hqBar'), null);
+  show('s-hq');
+}
+
+function hostReveal(m) {
+  clearInterval(timerId);
+  $('hrNum').textContent = m.isLast ? 'Last question' : '';
+  const top = Math.max(1, ...m.tally);
+  const box = $('hrTally');
+  box.innerHTML = '';
+  m.answers.forEach((text, i) => {
+    const row = el('div', 'tallyrow c' + i);
+    row.appendChild(el('span', 'sh'));
+    const label = el('span', null, text);
+    label.style.cssText = 'flex:0 0 34%;font-weight:700' + (i === m.correct ? ';text-decoration:underline' : ';opacity:.5');
+    row.appendChild(label);
+    const bar = el('span', 'bar');
+    const fill = el('i');
+    bar.appendChild(fill);
+    row.appendChild(bar);
+    row.appendChild(el('span', 'n mono', String(m.tally[i])));
+    box.appendChild(row);
+    requestAnimationFrame(() => { fill.style.width = (m.tally[i] / top) * 100 + '%'; });
+  });
+  drawBoard($('hrBoard'), m.leaderboard);
+  $('btnNext').textContent = m.isLast ? 'Show final scores' : 'Next';
+  show('s-hr');
+}
+
+function drawBoard(node, list) {
+  node.innerHTML = '';
+  if (!list || !list.length) { node.appendChild(el('div', null, 'No scores yet')); return; }
+  list.forEach((p, i) => {
+    const row = el('div');
+    row.appendChild(el('span', null, (i + 1) + '. ' + p.name));
+    row.appendChild(el('span', 'pts', String(p.score)));
+    node.appendChild(row);
+  });
+}
+
+function hostFinal(m) {
+  const b = m.leaderboard;
+  $('hfCount').textContent = m.count + ' played';
+  const p = $('hfPodium');
+  p.innerHTML = '';
+  for (const [idx, cls] of [[1, 's2'], [0, 's1'], [2, 's3']]) {
+    const step = el('div', 'step ' + cls);
+    step.appendChild(el('div', 'rank', b[idx] ? String(idx + 1) : '—'));
+    step.appendChild(el('div', null, b[idx] ? b[idx].name : ''));
+    step.appendChild(el('div', 'pts mono', b[idx] ? String(b[idx].score) : ''));
+    p.appendChild(step);
+  }
+  drawBoard($('hfBoard'), b);
+  show('s-hf');
+}
+
+/* ---------- player ---------- */
+function playerQuestion(m) {
+  $('paNum').textContent = 'Question ' + (m.index + 1) + ' of ' + m.total;
+  const pads = $('paPads');
+  pads.innerHTML = '';
+  for (let i = 0; i < m.answers; i++) {
+    const b = el('button', 'pad c' + i);
+    b.setAttribute('aria-label', 'Answer ' + (i + 1) + ', ' + SHAPES[i]);
+    b.appendChild(el('span', 'key mono', String(i + 1)));
+    b.appendChild(el('i'));
+    b.onclick = () => {
+      send({ t: 'answer', choice: i });
+      [...pads.children].forEach((c) => { c.disabled = true; });
+      b.classList.add('chosen');
+      $('paNum').textContent = 'Locked in. Hold tight.';
+    };
+    pads.appendChild(b);
+  }
+  // Rejoined after already answering: show the pads, but locked.
+  if (m.answered) {
+    [...pads.children].forEach((c) => { c.disabled = true; });
+    $('paNum').textContent = 'Already answered. Hold tight.';
+  }
+  runTimer(m.seconds, $('paBar'), $('paClock'));
+  show('s-pa');
+}
+
+function playerResult(m) {
+  clearInterval(timerId);
+  $('prVerdict').className = 'verdict ' + (m.correct ? 'hit' : 'miss');
+  $('prHead').textContent = m.correct ? 'Correct' : (m.answered ? 'Not that one' : 'Too slow');
+  $('prPts').textContent = m.gained ? '+' + m.gained : '+0';
+  $('prRank').textContent = 'Rank ' + m.rank + ' of ' + m.of;
+  $('prScore').textContent = m.score + ' points so far.';
+  show('s-pr');
+}
+
+function playerFinal(m) {
+  $('pfVerdict').className = 'verdict ' + (m.rank === 1 ? 'hit' : 'miss');
+  $('pfHead').textContent = m.rank === 1 ? 'You won' : 'Finished ' + m.rank + ' of ' + m.of;
+  $('pfPts').textContent = m.score + ' points';
+  drawBoard($('pfBoard'), m.podium);
+  show('s-pf');
+}
+
+function playerWaiting(text) {
+  $('pwHead').textContent = myName ? "You're in, " + myName + '.' : "You're in.";
+  $('pwSub').textContent = text;
+  show('s-pw');
+}
+
+/* ---------- inbound ---------- */
+function handle(m) {
+  switch (m.t) {
+    case 'snapshot':
+      if (m.role === 'host') {
+        enterLobbyUI(m.pin, m.quizTitle);
+        renderRoster(m.players);
+        if (m.phase === 'lobby') show('s-lobby');
+      } else {
+        myName = m.you.name;
+        whoami(myName.toUpperCase() + ' / ' + m.pin);
+        if (m.phase === 'lobby') playerWaiting('Keep this tab open. The first question lands on your host\u2019s screen.');
+        else if (m.phase === 'reveal') playerWaiting('Scores are up on the big screen. Next question shortly.');
+      }
+      break;
+    case 'roster': renderRoster(m.players); break;
+    case 'answered': $('hqAnswered').textContent = m.answered + ' of ' + m.total + ' answered'; break;
+    case 'question': role === 'host' ? hostQuestion(m) : playerQuestion(m); break;
+    case 'reveal': hostReveal(m); break;
+    case 'result': playerResult(m); break;
+    case 'final': role === 'host' ? hostFinal(m) : playerFinal(m); break;
+    case 'error': fail(m.message); break;
+  }
+}
+
+/* ---------- editor ---------- */
+const blankQ = () => ({ q: '', a: ['', '', '', ''], correct: 0, seconds: 20 });
+let draft = { title: '', slug: '', questions: [] };
+
+function renderEditor() {
+  const list = $('edList');
+  list.innerHTML = '';
+  draft.questions.forEach((q, qi) => {
+    const card = el('div', 'qcard');
+    const head = el('div', 'head');
+    head.appendChild(el('span', 'num', String(qi + 1).padStart(2, '0')));
+    const del = el('button', 'btn quiet', 'Remove');
+    del.onclick = () => { draft.questions.splice(qi, 1); renderEditor(); };
+    head.appendChild(del);
+    card.appendChild(head);
+
+    const qtext = el('input');
+    qtext.type = 'text';
+    qtext.value = q.q;
+    qtext.placeholder = 'Ask something';
+    qtext.maxLength = 300;
+    qtext.oninput = () => (q.q = qtext.value);
+    qtext.style.marginBottom = '14px';
+    card.appendChild(qtext);
+
+    q.a.forEach((text, ai) => {
+      const row = el('div', 'ansrow c' + ai);
+      row.appendChild(el('span', 'sh'));
+      const inp = el('input');
+      inp.type = 'text';
+      inp.value = text;
+      inp.maxLength = 120;
+      inp.placeholder = 'Answer ' + (ai + 1);
+      inp.oninput = () => (q.a[ai] = inp.value);
+      row.appendChild(inp);
+      const lab = el('label');
+      const radio = el('input');
+      radio.type = 'radio';
+      radio.name = 'correct' + qi;
+      radio.checked = q.correct === ai;
+      radio.style.width = 'auto';
+      radio.onchange = () => (q.correct = ai);
+      lab.appendChild(radio);
+      lab.appendChild(el('span', null, 'Right'));
+      row.appendChild(lab);
+      card.appendChild(row);
+    });
+
+    const sec = el('label', 'field');
+    sec.appendChild(el('span', null, 'Seconds on the clock'));
+    const si = el('input');
+    si.type = 'number';
+    si.min = 5;
+    si.max = 120;
+    si.value = q.seconds;
+    si.oninput = () => (q.seconds = Math.max(5, Math.min(120, Number(si.value) || 20)));
+    sec.appendChild(si);
+    sec.style.marginTop = '12px';
+    card.appendChild(sec);
+
+    list.appendChild(card);
+  });
+  $('edCount').textContent = draft.questions.length + ' questions';
+}
+
+function draftToPack() {
+  const questions = draft.questions
+    .filter((q) => q.q.trim() && q.a.filter((a) => a.trim()).length >= 2)
+    .map((q) => {
+      const kept = [];
+      let correct = 0;
+      q.a.forEach((a, i) => { if (a.trim()) { if (i === q.correct) correct = kept.length; kept.push(a.trim()); } });
+      return { q: q.q.trim(), a: kept, correct, seconds: q.seconds };
+    });
+  return { title: draft.title.trim() || 'Untitled quiz', slug: draft.slug.trim() || 'untitled', questions };
+}
+
+/* ---------- resume banner ---------- */
+function showResume() {
+  const saved = recall();
+  const box = $('resumeBox');
+  if (!saved) return box.classList.add('hide');
+  $('resumeText').textContent = saved.role === 'host'
+    ? 'You were hosting game ' + saved.pin + '.'
+    : 'You were playing game ' + saved.pin + ' as ' + saved.name + '.';
+  box.classList.remove('hide');
+  $('btnResume').onclick = () => {
+    box.classList.add('hide');
+    if (saved.role === 'host') resumeHost(saved);
+    else joinGame(saved.pin, saved.name);
+  };
+  $('btnForget').onclick = () => { forget(); box.classList.add('hide'); };
+}
+
+/* ---------- wiring ---------- */
+$('btnStartHost').onclick = async () => {
+  const file = $('packPick').value;
+  if (!file) return fail('No quiz pack selected.');
+  try {
+    hostGame(await (await fetch('quizzes/' + file)).json());
+  } catch (_) {
+    fail('That pack would not load.');
+  }
+};
+
+function joinGame(p, n) {
+  role = 'player';
+  pin = p;
+  myName = n;
+  remember({ role: 'player', pin: p, name: n });
+  whoami(n.toUpperCase() + ' / ' + p);
+  playerWaiting('Keep this tab open. The first question lands on your host\u2019s screen.');
+  connect({ pin: p, role: 'player', name: n });
+}
+
+$('btnJoin').onclick = () => {
+  const p = $('joinPin').value.replace(/\D/g, '');
+  const n = $('joinName').value.trim();
+  if (p.length !== 6) return fail('The PIN is six digits.');
+  if (!n) return fail('Pick a nickname first.');
+  joinGame(p, n);
+};
+
+$('btnBegin').onclick = () => send({ t: 'start' });
+$('btnSkip').onclick = () => send({ t: 'skip' });
+$('btnNext').onclick = () => send({ t: 'next' });
+$('btnAgain').onclick = () => { forget(); location.href = location.pathname; };
+
+$('btnToEditor').onclick = () => { if (!draft.questions.length) draft.questions.push(blankQ()); renderEditor(); show('s-ed'); };
+$('btnEdBack').onclick = () => show('s-home');
+$('btnAddQ').onclick = () => { draft.questions.push(blankQ()); renderEditor(); };
+$('edTitle').oninput = (e) => (draft.title = e.target.value);
+$('edSlug').oninput = (e) => (draft.slug = e.target.value);
+
+$('btnExport').onclick = () => {
+  const pack = draftToPack();
+  if (!pack.questions.length) return fail('Nothing to save yet. Each question needs text and two answers.');
+  const blob = new Blob([JSON.stringify(pack, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = pack.slug + '.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+
+$('btnImport').onclick = () => $('fileIn').click();
+$('fileIn').onchange = async (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  try {
+    const pack = JSON.parse(await f.text());
+    draft = {
+      title: pack.title || '',
+      slug: pack.slug || '',
+      questions: (pack.questions || []).map((q) => ({
+        q: q.q || '',
+        a: [0, 1, 2, 3].map((i) => (q.a && q.a[i]) || ''),
+        correct: q.correct || 0,
+        seconds: q.seconds || 20,
+      })),
+    };
+    $('edTitle').value = draft.title;
+    $('edSlug').value = draft.slug;
+    renderEditor();
+  } catch (_) {
+    fail("That file isn't a quiz pack.");
+  }
+};
+
+$('btnHostDraft').onclick = () => {
+  const pack = draftToPack();
+  if (!pack.questions.length) return fail('Add at least one finished question.');
+  hostGame(pack);
+};
+
+/* laptop players: 1-4 picks an answer */
+document.addEventListener('keydown', (e) => {
+  if (!$('s-pa').classList.contains('on')) return;
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const n = Number(e.key);
+  if (!Number.isInteger(n) || n < 1 || n > 4) return;
+  const pad = $('paPads').children[n - 1];
+  if (pad && !pad.disabled) { e.preventDefault(); pad.click(); }
+});
+
+/* deep link: ?pin=123456 prefills the join form */
+const qp = new URLSearchParams(location.search);
+if (qp.get('pin')) $('joinPin').value = qp.get('pin').replace(/\D/g, '').slice(0, 6);
+showResume();
+loadManifest();
+})();
+</script>
+</body>
+</html>
