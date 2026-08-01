@@ -1,0 +1,31 @@
+{
+  "title": "Pop Science Fiction",
+  "slug": "scifi",
+  "draw": 10,
+  "questions": [
+    { "q": "In Dune, what is the common name for the spice melange found on Arrakis?", "a": ["Sand", "Spice", "Water", "Ore"], "correct": 1, "seconds": 20 },
+    { "q": "Which film features a ship called the Nostromo?", "a": ["Alien", "Blade Runner", "Event Horizon", "Sunshine"], "correct": 0, "seconds": 20 },
+    { "q": "What are the three laws in Asimov's robot stories about?", "a": ["Time travel", "Robotics", "Space flight", "Genetics"], "correct": 1, "seconds": 20 },
+    { "q": "In The Matrix, which pill does Neo take?", "a": ["Blue", "Red", "Green", "White"], "correct": 1, "seconds": 15 },
+    { "q": "Blade Runner is based on a novel by which author?", "a": ["Isaac Asimov", "Philip K. Dick", "Arthur C. Clarke", "William Gibson"], "correct": 1, "seconds": 20 },
+    { "q": "What is the name of the AI in 2001: A Space Odyssey?", "a": ["HAL 9000", "SAL 9000", "MU-TH-UR", "Skynet"], "correct": 0, "seconds": 15 },
+    { "q": "Which novel coined the term cyberspace?", "a": ["Snow Crash", "Neuromancer", "Do Androids Dream", "Ready Player One"], "correct": 1, "seconds": 20 },
+    { "q": "In Star Trek, what is the top speed designation for faster-than-light travel?", "a": ["Hyperdrive", "Warp", "Jump", "Slipstream"], "correct": 1, "seconds": 15 },
+    { "q": "The Hitchhiker's Guide gives which number as the answer to everything?", "a": ["7", "13", "42", "101"], "correct": 2, "seconds": 15 },
+    { "q": "In Star Wars, what is Han Solo's ship called?", "a": ["Millennium Falcon", "Serenity", "Rocinante", "Normandy"], "correct": 0, "seconds": 15 },
+    { "q": "Which series features a ship called the Rocinante?", "a": ["Firefly", "The Expanse", "Battlestar Galactica", "Babylon 5"], "correct": 1, "seconds": 20 },
+    { "q": "In Jurassic Park, what animal DNA fills the gaps in the dinosaur genome?", "a": ["Bird", "Frog", "Lizard", "Crocodile"], "correct": 1, "seconds": 20 },
+    { "q": "Ender's Game centers on children being trained for what?", "a": ["Space war", "Terraforming", "Time travel", "Colonization"], "correct": 0, "seconds": 20 },
+    { "q": "Which film's plot hinges on time dilation near a black hole?", "a": ["Gravity", "Interstellar", "Arrival", "Ad Astra"], "correct": 1, "seconds": 20 },
+    { "q": "In Arrival, what is the linguist trying to decode?", "a": ["A radio signal", "Alien written language", "An ancient text", "A computer virus"], "correct": 1, "seconds": 20 },
+    { "q": "Who wrote The Left Hand of Darkness?", "a": ["Octavia Butler", "Ursula K. Le Guin", "Margaret Atwood", "Connie Willis"], "correct": 1, "seconds": 20 },
+    { "q": "In Snow Crash, what is the virtual world called?", "a": ["The Grid", "The Metaverse", "The Oasis", "The Matrix"], "correct": 1, "seconds": 20 },
+    { "q": "Which franchise features the phrase live long and prosper?", "a": ["Star Wars", "Star Trek", "Stargate", "Farscape"], "correct": 1, "seconds": 15 },
+    { "q": "In Back to the Future, what car becomes the time machine?", "a": ["Corvette", "DeLorean", "Mustang", "Camaro"], "correct": 1, "seconds": 15 },
+    { "q": "Children of Men is set in a world where humans cannot do what?", "a": ["Sleep", "Reproduce", "Speak", "Age"], "correct": 1, "seconds": 20 },
+    { "q": "In Firefly, what is the name of the ship's class?", "a": ["Firefly", "Serenity", "Reaver", "Alliance"], "correct": 0, "seconds": 20 },
+    { "q": "Who wrote Kindred and Parable of the Sower?", "a": ["Octavia Butler", "N.K. Jemisin", "Nnedi Okorafor", "Samuel Delany"], "correct": 0, "seconds": 20 },
+    { "q": "In The Terminator, what is the hostile AI network called?", "a": ["HAL", "Skynet", "VIKI", "Ultron"], "correct": 1, "seconds": 15 },
+    { "q": "Which film features a spinning top used to test reality?", "a": ["Inception", "The Matrix", "Shutter Island", "Memento"], "correct": 0, "seconds": 20 }
+  ]
+}

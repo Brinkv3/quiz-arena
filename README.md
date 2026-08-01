@@ -81,6 +81,9 @@ framework.
 5. Correct answers score 500 to 1000 points, scaled by how fast they arrived.
 6. After the last question: a podium and the full standings.
 
+From the podium the host can start another round with the same players. Scores
+reset and a fresh set of questions is drawn, with no new PIN to share.
+
 Players can only join before question one. A room deletes itself after six idle
 hours, so PINs recycle.
 
@@ -103,12 +106,16 @@ buttons on the result and final screens.
 
 ## Quiz packs
 
+Ten packs ship with the game: Richmond, AI, AI governance, video games, history,
+movies, music, science fiction, sports, and Taylor Swift.
+
 A pack is a JSON file in `public/quizzes`:
 
 ```json
 {
   "title": "Richmond, Start to Finish",
   "slug": "rva",
+  "draw": 10,
   "questions": [
     {
       "q": "Which river runs through downtown?",
@@ -122,6 +129,13 @@ A pack is a JSON file in `public/quizzes`:
 
 `correct` is a zero-based index. Two to four answers per question, 5 to 120
 seconds each.
+
+`draw` is optional. When set, each game serves that many questions taken at
+random from the pack rather than all of them, so a pack of 24 with a draw of 10
+plays differently every time. Leave it out and every question is used.
+
+Question order and answer order are both shuffled for every game, so even a pack
+that serves all its questions does not repeat itself.
 
 To add a pack permanently: drop the file in `public/quizzes`, add a line to
 `manifest.json`, redeploy. It appears in the host's dropdown.

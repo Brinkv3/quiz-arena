@@ -1,0 +1,31 @@
+{
+  "title": "Music",
+  "slug": "music",
+  "draw": 10,
+  "questions": [
+    { "q": "How many strings does a standard guitar have?", "a": ["4", "5", "6", "7"], "correct": 2, "seconds": 15 },
+    { "q": "Which band released the album Abbey Road?", "a": ["The Rolling Stones", "The Beatles", "The Who", "The Kinks"], "correct": 1, "seconds": 15 },
+    { "q": "Who is known as the King of Pop?", "a": ["Elvis Presley", "Michael Jackson", "Prince", "James Brown"], "correct": 1, "seconds": 15 },
+    { "q": "How many keys are on a standard full-size piano?", "a": ["76", "84", "88", "92"], "correct": 2, "seconds": 20 },
+    { "q": "Which genre originated in Jamaica in the 1960s?", "a": ["Reggae", "Salsa", "Samba", "Zydeco"], "correct": 0, "seconds": 20 },
+    { "q": "Who composed the Ninth Symphony featuring Ode to Joy?", "a": ["Mozart", "Beethoven", "Bach", "Brahms"], "correct": 1, "seconds": 20 },
+    { "q": "Which city is widely considered the birthplace of jazz?", "a": ["Chicago", "New Orleans", "Memphis", "New York"], "correct": 1, "seconds": 20 },
+    { "q": "What does BPM stand for in music?", "a": ["Bars per measure", "Beats per minute", "Bass per mix", "Breaks per movement"], "correct": 1, "seconds": 15 },
+    { "q": "Which instrument does a percussionist NOT typically play?", "a": ["Drums", "Timpani", "Xylophone", "Oboe"], "correct": 3, "seconds": 20 },
+    { "q": "Nirvana's breakthrough album was called what?", "a": ["Bleach", "Nevermind", "In Utero", "Incesticide"], "correct": 1, "seconds": 20 },
+    { "q": "How many lines are in a standard musical staff?", "a": ["4", "5", "6", "7"], "correct": 1, "seconds": 20 },
+    { "q": "Which artist released the album Thriller?", "a": ["Prince", "Michael Jackson", "Lionel Richie", "Stevie Wonder"], "correct": 1, "seconds": 15 },
+    { "q": "Hip hop emerged in which New York borough?", "a": ["Brooklyn", "The Bronx", "Queens", "Harlem"], "correct": 1, "seconds": 20 },
+    { "q": "What is a cappella singing?", "a": ["With orchestra", "Without instruments", "In a chapel", "In harmony"], "correct": 1, "seconds": 20 },
+    { "q": "Which band's members included Freddie Mercury?", "a": ["Queen", "The Clash", "Led Zeppelin", "Pink Floyd"], "correct": 0, "seconds": 15 },
+    { "q": "What tempo marking means very fast?", "a": ["Largo", "Andante", "Presto", "Adagio"], "correct": 2, "seconds": 20 },
+    { "q": "Which decade did disco peak in popularity?", "a": ["1960s", "1970s", "1980s", "1990s"], "correct": 1, "seconds": 20 },
+    { "q": "Bob Dylan was awarded which unusual prize in 2016?", "a": ["Pulitzer", "Nobel Prize in Literature", "Turing Award", "Booker Prize"], "correct": 1, "seconds": 20 },
+    { "q": "What does a sharp symbol do to a note?", "a": ["Raises it a half step", "Lowers it a half step", "Doubles its length", "Silences it"], "correct": 0, "seconds": 20 },
+    { "q": "Which instrument is Miles Davis most associated with?", "a": ["Saxophone", "Trumpet", "Piano", "Bass"], "correct": 1, "seconds": 20 },
+    { "q": "The Grand Ole Opry is associated with which genre?", "a": ["Blues", "Country", "Gospel", "Bluegrass only"], "correct": 1, "seconds": 20 },
+    { "q": "How many musicians are in a string quartet?", "a": ["3", "4", "5", "6"], "correct": 1, "seconds": 15 },
+    { "q": "Which artist is known for the album Purple Rain?", "a": ["Prince", "Rick James", "Marvin Gaye", "Sly Stone"], "correct": 0, "seconds": 20 },
+    { "q": "What is the lowest-pitched common brass instrument?", "a": ["Trombone", "French horn", "Tuba", "Trumpet"], "correct": 2, "seconds": 20 }
+  ]
+}

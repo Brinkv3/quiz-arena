@@ -1,4 +1,72 @@
 [
-  { "slug": "rva", "title": "Richmond, Start to Finish", "file": "rva.json", "count": 10 },
-  { "slug": "ai-governance", "title": "AI Governance Basics", "file": "ai-governance.json", "count": 10 }
+  {
+    "slug": "rva",
+    "title": "Richmond, Start to Finish",
+    "file": "rva.json",
+    "count": 10,
+    "draw": 10
+  },
+  {
+    "slug": "ai",
+    "title": "Artificial Intelligence",
+    "file": "ai.json",
+    "count": 24,
+    "draw": 10
+  },
+  {
+    "slug": "games",
+    "title": "Video Games",
+    "file": "games.json",
+    "count": 24,
+    "draw": 10
+  },
+  {
+    "slug": "history",
+    "title": "History",
+    "file": "history.json",
+    "count": 24,
+    "draw": 10
+  },
+  {
+    "slug": "movies",
+    "title": "Movies",
+    "file": "movies.json",
+    "count": 24,
+    "draw": 10
+  },
+  {
+    "slug": "music",
+    "title": "Music",
+    "file": "music.json",
+    "count": 24,
+    "draw": 10
+  },
+  {
+    "slug": "scifi",
+    "title": "Pop Science Fiction",
+    "file": "scifi.json",
+    "count": 24,
+    "draw": 10
+  },
+  {
+    "slug": "sports",
+    "title": "Sports",
+    "file": "sports.json",
+    "count": 24,
+    "draw": 10
+  },
+  {
+    "slug": "taylor-swift",
+    "title": "Taylor Swift",
+    "file": "taylor-swift.json",
+    "count": 24,
+    "draw": 10
+  },
+  {
+    "slug": "ai-governance",
+    "title": "AI Governance Basics",
+    "file": "ai-governance.json",
+    "count": 10,
+    "draw": 10
+  }
 ]

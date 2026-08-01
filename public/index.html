@@ -37,7 +37,7 @@ h1,h2,h3,.display{font-family:var(--display);font-weight:900;letter-spacing:-.02
 .mark.live{cursor:pointer}
 .mark.live:hover .glyphs{transform:translateX(-3px)}
 .mark .glyphs{display:flex;gap:5px;transition:transform .12s}
-@media(max-width:520px){.mark .word{display:none}}
+@media(max-width:520px){body.ingame .mark .word{display:none}}
 
 /* confirm sheet */
 #ask{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(17,17,17,.55)}
@@ -313,7 +313,10 @@ footer a{color:var(--ink)}
   <div class="qhead"><span>Final standings</span><span id="hfCount"></span></div>
   <div class="podium" id="hfPodium"></div>
   <div class="board" id="hfBoard"></div>
-  <div class="row"><button class="btn" id="btnAgain">Run another game</button></div>
+  <div class="row">
+    <button class="btn" id="btnRematch">Play again, same group</button>
+    <button class="btn quiet" id="btnAgain">Start over</button>
+  </div>
 </section>
 
 <!-- ============ PLAYER WAIT ============ -->
@@ -351,6 +354,7 @@ footer a{color:var(--ink)}
 <section class="screen" id="s-pf">
   <div class="verdict" id="pfVerdict"><h2 id="pfHead"></h2><div class="pts" id="pfPts"></div></div>
   <div class="board" id="pfBoard"></div>
+  <p class="note" id="pfNote">Stay put if your host runs another round.</p>
   <div class="row"><button class="btn" id="btnLeave">Leave game</button></div>
 </section>
 
@@ -466,7 +470,10 @@ function fail(msg) {
   b.classList.remove('hide');
   setTimeout(() => b.classList.add('hide'), 7000);
 }
-const whoami = (t) => ($('whoami').textContent = t || '');
+const whoami = (t) => {
+  $('whoami').textContent = t || '';
+  document.body.classList.toggle('ingame', !!t);
+};
 const conn = (t) => ($('connState').textContent = t || '');
 
 /* ---------- remembered session ---------- */
@@ -483,7 +490,8 @@ async function loadManifest() {
   try {
     const packs = await (await fetch('quizzes/manifest.json')).json();
     for (const p of packs) {
-      const o = el('option', null, p.title + ' (' + p.count + ')');
+      const n = p.draw && p.draw < p.count ? p.draw + ' of ' + p.count : String(p.count);
+      const o = el('option', null, p.title + ' \u2014 ' + n + ' questions');
       o.value = p.file;
       sel.appendChild(o);
     }
@@ -938,6 +946,7 @@ $('btnBegin').onclick = () => send({ t: 'start' });
 $('btnSkip').onclick = () => send({ t: 'skip' });
 $('btnNext').onclick = () => send({ t: 'next' });
 $('btnAgain').onclick = () => { forget(); location.href = location.pathname; };
+$('btnRematch').onclick = () => send({ t: 'rematch' });
 
 $('btnToEditor').onclick = () => { if (!draft.questions.length) draft.questions.push(blankQ()); renderEditor(); show('s-ed'); };
 $('btnEdBack').onclick = () => show('s-home');

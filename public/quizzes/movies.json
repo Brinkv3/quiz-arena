@@ -1,0 +1,31 @@
+{
+  "title": "Movies",
+  "slug": "movies",
+  "draw": 10,
+  "questions": [
+    { "q": "Which film won the first Academy Award for Best Picture at the 1929 ceremony?", "a": ["Wings", "Sunrise", "The Jazz Singer", "Metropolis"], "correct": 0, "seconds": 20 },
+    { "q": "Who directed Jaws, E.T., and Jurassic Park?", "a": ["George Lucas", "Steven Spielberg", "Ridley Scott", "James Cameron"], "correct": 1, "seconds": 15 },
+    { "q": "In The Godfather, what is the family surname?", "a": ["Soprano", "Corleone", "Barzini", "Tattaglia"], "correct": 1, "seconds": 15 },
+    { "q": "Which film features a character named Tyler Durden?", "a": ["Se7en", "Fight Club", "American Psycho", "Trainspotting"], "correct": 1, "seconds": 20 },
+    { "q": "Casablanca is set primarily in which country?", "a": ["Algeria", "Morocco", "Tunisia", "Egypt"], "correct": 1, "seconds": 20 },
+    { "q": "Who played the lead in Forrest Gump?", "a": ["Tom Hanks", "Kevin Costner", "Robin Williams", "Bill Murray"], "correct": 0, "seconds": 15 },
+    { "q": "Which director is known for Pulp Fiction and Kill Bill?", "a": ["Martin Scorsese", "Quentin Tarantino", "Paul Thomas Anderson", "Coen Brothers"], "correct": 1, "seconds": 15 },
+    { "q": "The Shawshank Redemption is based on a novella by which author?", "a": ["John Grisham", "Stephen King", "Michael Crichton", "Dean Koontz"], "correct": 1, "seconds": 20 },
+    { "q": "Which animated studio made Toy Story?", "a": ["DreamWorks", "Pixar", "Blue Sky", "Illumination"], "correct": 1, "seconds": 15 },
+    { "q": "In The Wizard of Oz, what does Dorothy follow?", "a": ["The yellow brick road", "The north star", "A river", "A map"], "correct": 0, "seconds": 15 },
+    { "q": "Which film's tagline is In space, no one can hear you scream?", "a": ["Alien", "Event Horizon", "Solaris", "Apollo 13"], "correct": 0, "seconds": 20 },
+    { "q": "Parasite, the 2019 Best Picture winner, is from which country?", "a": ["Japan", "South Korea", "China", "Taiwan"], "correct": 1, "seconds": 20 },
+    { "q": "Who directed Citizen Kane and starred in it?", "a": ["Orson Welles", "John Ford", "Alfred Hitchcock", "Frank Capra"], "correct": 0, "seconds": 20 },
+    { "q": "What is the name of the hotel in The Shining?", "a": ["The Bates", "The Overlook", "The Continental", "The Grand"], "correct": 1, "seconds": 20 },
+    { "q": "Which movie features the line I'll be back?", "a": ["Rocky", "The Terminator", "Predator", "Die Hard"], "correct": 1, "seconds": 15 },
+    { "q": "Spirited Away was directed by whom?", "a": ["Hayao Miyazaki", "Isao Takahata", "Makoto Shinkai", "Mamoru Hosoda"], "correct": 0, "seconds": 20 },
+    { "q": "In Titanic, what is the name of the ship's fictional artist protagonist?", "a": ["Jack", "Jake", "James", "John"], "correct": 0, "seconds": 15 },
+    { "q": "Which film series features the One Ring?", "a": ["Harry Potter", "The Lord of the Rings", "The Hobbit only", "Narnia"], "correct": 1, "seconds": 15 },
+    { "q": "Who directed Do the Right Thing?", "a": ["Spike Lee", "John Singleton", "Jordan Peele", "Barry Jenkins"], "correct": 0, "seconds": 20 },
+    { "q": "In Psycho, what is the name of the motel?", "a": ["The Overlook", "Bates Motel", "Sunset Inn", "The Roadside"], "correct": 1, "seconds": 20 },
+    { "q": "Which film is famous for its rotating hallway fight scene?", "a": ["The Matrix", "Inception", "Tenet", "Doctor Strange"], "correct": 1, "seconds": 20 },
+    { "q": "Who composed the scores for Star Wars, Jaws, and Indiana Jones?", "a": ["Hans Zimmer", "John Williams", "Ennio Morricone", "Danny Elfman"], "correct": 1, "seconds": 20 },
+    { "q": "Mad Max: Fury Road is set primarily in what setting?", "a": ["Arctic", "Desert wasteland", "Jungle", "Underwater"], "correct": 1, "seconds": 20 },
+    { "q": "Which film opens with the words A long time ago in a galaxy far, far away?", "a": ["Star Trek", "Star Wars", "Dune", "Battlestar Galactica"], "correct": 1, "seconds": 15 }
+  ]
+}

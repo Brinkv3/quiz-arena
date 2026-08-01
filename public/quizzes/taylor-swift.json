@@ -1,0 +1,31 @@
+{
+  "title": "Taylor Swift",
+  "slug": "taylor-swift",
+  "draw": 10,
+  "questions": [
+    { "q": "Which album was her first to win the Grammy for Album of the Year?", "a": ["Fearless", "Red", "1989", "Speak Now"], "correct": 0, "seconds": 20 },
+    { "q": "What was the name of her self-titled debut album's lead single?", "a": ["Teardrops on My Guitar", "Tim McGraw", "Our Song", "Picture to Burn"], "correct": 1, "seconds": 20 },
+    { "q": "Which album marked her full move from country to pop?", "a": ["Red", "1989", "Reputation", "Lover"], "correct": 1, "seconds": 20 },
+    { "q": "The albums folklore and evermore both came out in which year?", "a": ["2019", "2020", "2021", "2022"], "correct": 1, "seconds": 20 },
+    { "q": "What is the running time of the extended version of All Too Well?", "a": ["Five minutes", "Eight minutes", "Ten minutes", "Thirteen minutes"], "correct": 2, "seconds": 20 },
+    { "q": "Which number does she repeatedly cite as her lucky one?", "a": ["7", "13", "22", "89"], "correct": 1, "seconds": 15 },
+    { "q": "Her re-recorded albums carry which subtitle?", "a": ["Reclaimed", "Taylor's Version", "The Original", "Redux"], "correct": 1, "seconds": 15 },
+    { "q": "Which tour was the subject of a 2023 concert film?", "a": ["Reputation Stadium Tour", "The Eras Tour", "1989 World Tour", "Red Tour"], "correct": 1, "seconds": 20 },
+    { "q": "Which producer is closely associated with folklore and evermore?", "a": ["Max Martin", "Aaron Dessner", "Jack Antonoff", "Rick Rubin"], "correct": 1, "seconds": 20 },
+    { "q": "In which state was she born?", "a": ["Tennessee", "Pennsylvania", "New York", "Ohio"], "correct": 1, "seconds": 20 },
+    { "q": "Which city did she move to as a teenager to pursue country music?", "a": ["Austin", "Nashville", "Memphis", "Atlanta"], "correct": 1, "seconds": 15 },
+    { "q": "Shake It Off appears on which album?", "a": ["Red", "1989", "Lover", "Reputation"], "correct": 1, "seconds": 15 },
+    { "q": "Which album's aesthetic leaned heavily on snakes and black-and-white?", "a": ["Reputation", "Lover", "Midnights", "1989"], "correct": 0, "seconds": 20 },
+    { "q": "Anti-Hero is the lead single from which album?", "a": ["Lover", "Evermore", "Midnights", "Folklore"], "correct": 2, "seconds": 20 },
+    { "q": "Which song opens with the line about being on a balcony in summer air?", "a": ["Love Story", "You Belong With Me", "Enchanted", "Sparks Fly"], "correct": 0, "seconds": 20 },
+    { "q": "What instrument did she famously learn from a computer repairman?", "a": ["Piano", "Guitar", "Banjo", "Ukulele"], "correct": 1, "seconds": 20 },
+    { "q": "Which album cover features her in a beige cardigan-era woodland setting?", "a": ["Evermore", "Folklore", "Midnights", "Lover"], "correct": 1, "seconds": 20 },
+    { "q": "Bad Blood featured a guest verse from which rapper?", "a": ["Nicki Minaj", "Kendrick Lamar", "Drake", "Future"], "correct": 1, "seconds": 20 },
+    { "q": "Which sport did her high-profile relationship bring her stadium attention in?", "a": ["Basketball", "American football", "Soccer", "Baseball"], "correct": 1, "seconds": 20 },
+    { "q": "Which album is described as a collection of songs written at midnight?", "a": ["Midnights", "Evermore", "Reputation", "Red"], "correct": 0, "seconds": 15 },
+    { "q": "Which of these is NOT one of her albums?", "a": ["Speak Now", "Fearless", "Nightfall", "Lover"], "correct": 2, "seconds": 20 },
+    { "q": "The song Love Story reimagines which Shakespeare play?", "a": ["Hamlet", "Romeo and Juliet", "Macbeth", "Twelfth Night"], "correct": 1, "seconds": 15 },
+    { "q": "What color is most associated with the Lover album's visuals?", "a": ["Black", "Pastel pink and blue", "Gold", "Deep red"], "correct": 1, "seconds": 20 },
+    { "q": "Her fans are collectively known as what?", "a": ["Swifties", "Swiftlings", "Taylors", "The 13s"], "correct": 0, "seconds": 15 }
+  ]
+}

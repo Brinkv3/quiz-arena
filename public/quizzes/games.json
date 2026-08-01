@@ -1,0 +1,31 @@
+{
+  "title": "Video Games",
+  "slug": "games",
+  "draw": 10,
+  "questions": [
+    { "q": "Which company created Mario?", "a": ["Sega", "Nintendo", "Sony", "Atari"], "correct": 1, "seconds": 15 },
+    { "q": "In Minecraft, what material is needed to make a diamond pickaxe?", "a": ["Iron", "Diamond", "Gold", "Obsidian"], "correct": 1, "seconds": 15 },
+    { "q": "Which game popularized the battle royale genre alongside PUBG?", "a": ["Fortnite", "Overwatch", "Apex Legends", "Valorant"], "correct": 0, "seconds": 20 },
+    { "q": "What is the best-selling video game of all time?", "a": ["Tetris", "Minecraft", "GTA V", "Wii Sports"], "correct": 1, "seconds": 20 },
+    { "q": "Which console did Sony release in 1994?", "a": ["PlayStation", "Saturn", "Dreamcast", "Nintendo 64"], "correct": 0, "seconds": 20 },
+    { "q": "In The Legend of Zelda, what is the protagonist's name?", "a": ["Zelda", "Link", "Ganon", "Navi"], "correct": 1, "seconds": 15 },
+    { "q": "Which game features the phrase It's dangerous to go alone?", "a": ["Final Fantasy", "The Legend of Zelda", "Dragon Quest", "Castlevania"], "correct": 1, "seconds": 20 },
+    { "q": "Tetris was created by a programmer from which country?", "a": ["Japan", "Soviet Union", "United States", "Poland"], "correct": 1, "seconds": 20 },
+    { "q": "In Pokemon, what type is Pikachu?", "a": ["Fire", "Electric", "Water", "Normal"], "correct": 1, "seconds": 15 },
+    { "q": "Which studio made The Elder Scrolls series?", "a": ["BioWare", "Bethesda", "Obsidian", "CD Projekt"], "correct": 1, "seconds": 20 },
+    { "q": "What does NPC stand for?", "a": ["New Player Character", "Non-Player Character", "Network Play Console", "Next Phase Cycle"], "correct": 1, "seconds": 15 },
+    { "q": "Doom, released in 1993, helped define which genre?", "a": ["Platformer", "First-person shooter", "Real-time strategy", "Fighting"], "correct": 1, "seconds": 20 },
+    { "q": "Which game engine is known for being free until revenue thresholds?", "a": ["Unreal", "CryEngine", "Source", "id Tech"], "correct": 0, "seconds": 20 },
+    { "q": "In Among Us, what are the two roles?", "a": ["Hunter and prey", "Crewmate and impostor", "Cop and thief", "Host and guest"], "correct": 1, "seconds": 15 },
+    { "q": "Which handheld console did Nintendo release in 1989?", "a": ["Game Gear", "Game Boy", "Lynx", "NeoGeo Pocket"], "correct": 1, "seconds": 20 },
+    { "q": "Portal's central mechanic involves what?", "a": ["Time travel", "Linked portals", "Gravity flips", "Shrinking"], "correct": 1, "seconds": 20 },
+    { "q": "Which game series features Master Chief?", "a": ["Halo", "Gears of War", "Destiny", "Call of Duty"], "correct": 0, "seconds": 15 },
+    { "q": "Godot, Unity, and Unreal are all examples of what?", "a": ["Game engines", "Consoles", "Studios", "Genres"], "correct": 0, "seconds": 20 },
+    { "q": "In Street Fighter, which character is known for the Hadouken?", "a": ["Ken", "Ryu", "Guile", "Blanka"], "correct": 1, "seconds": 20 },
+    { "q": "Which game is credited with launching the roguelike genre?", "a": ["Rogue", "NetHack", "Angband", "Moria"], "correct": 0, "seconds": 20 },
+    { "q": "What does FPS stand for in the context of game performance?", "a": ["First Person Shooter", "Frames Per Second", "Fast Play Speed", "Full Pixel Shading"], "correct": 1, "seconds": 20 },
+    { "q": "Which company made the Genesis console?", "a": ["Nintendo", "Sega", "Atari", "NEC"], "correct": 1, "seconds": 20 },
+    { "q": "Stardew Valley is primarily what kind of game?", "a": ["Shooter", "Farming simulation", "Racing", "Puzzle"], "correct": 1, "seconds": 20 },
+    { "q": "In chess-like fashion, which esport is built on Defense of the Ancients?", "a": ["League of Legends", "Dota 2", "Smite", "Heroes of the Storm"], "correct": 1, "seconds": 20 }
+  ]
+}

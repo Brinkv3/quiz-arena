@@ -2,15 +2,116 @@
   "title": "Richmond, Start to Finish",
   "slug": "rva",
   "questions": [
-    { "q": "Which river runs straight through downtown Richmond?", "a": ["The Rappahannock", "The James", "The Potomac", "The Shenandoah"], "correct": 1, "seconds": 15 },
-    { "q": "Richmond became the capital of Virginia in which decade?", "a": ["1720s", "1750s", "1780s", "1810s"], "correct": 2, "seconds": 20 },
-    { "q": "Monument Avenue is best known today for what?", "a": ["Its cobblestones", "The removal of its statues", "Its food halls", "Its rail yard"], "correct": 1, "seconds": 20 },
-    { "q": "Which neighborhood sits on the hill above the river to the east of downtown?", "a": ["Church Hill", "Scott's Addition", "The Fan", "Carytown"], "correct": 0, "seconds": 15 },
-    { "q": "Scott's Addition was originally built as what kind of district?", "a": ["Residential", "Industrial", "Financial", "Agricultural"], "correct": 1, "seconds": 20 },
-    { "q": "Which university anchors the west side of the city?", "a": ["VCU", "UVA", "Virginia Tech", "William & Mary"], "correct": 0, "seconds": 15 },
-    { "q": "The Federal Reserve Bank of Richmond serves which district number?", "a": ["Third", "Fourth", "Fifth", "Sixth"], "correct": 2, "seconds": 20 },
-    { "q": "Belle Isle is reached from the north bank by what?", "a": ["A ferry", "A footbridge under a highway", "A tunnel", "A causeway"], "correct": 1, "seconds": 20 },
-    { "q": "Carytown's western end is marked by which landmark theatre?", "a": ["The Byrd", "The National", "The Altria", "The Broadberry"], "correct": 0, "seconds": 15 },
-    { "q": "What are the rapids running through the city rated up to?", "a": ["Class II", "Class III", "Class IV", "Class V"], "correct": 2, "seconds": 20 }
-  ]
+    {
+      "q": "Which river runs straight through downtown Richmond?",
+      "a": [
+        "The Rappahannock",
+        "The James",
+        "The Potomac",
+        "The Shenandoah"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Richmond became the capital of Virginia in which decade?",
+      "a": [
+        "1720s",
+        "1750s",
+        "1780s",
+        "1810s"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "Monument Avenue is best known today for what?",
+      "a": [
+        "Its cobblestones",
+        "The removal of its statues",
+        "Its food halls",
+        "Its rail yard"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which neighborhood sits on the hill above the river to the east of downtown?",
+      "a": [
+        "Church Hill",
+        "Scott's Addition",
+        "The Fan",
+        "Carytown"
+      ],
+      "correct": 0,
+      "seconds": 15
+    },
+    {
+      "q": "Scott's Addition was originally built as what kind of district?",
+      "a": [
+        "Residential",
+        "Industrial",
+        "Financial",
+        "Agricultural"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which university anchors the west side of the city?",
+      "a": [
+        "VCU",
+        "UVA",
+        "Virginia Tech",
+        "William & Mary"
+      ],
+      "correct": 0,
+      "seconds": 15
+    },
+    {
+      "q": "The Federal Reserve Bank of Richmond serves which district number?",
+      "a": [
+        "Third",
+        "Fourth",
+        "Fifth",
+        "Sixth"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "Belle Isle is reached from the north bank by what?",
+      "a": [
+        "A ferry",
+        "A footbridge under a highway",
+        "A tunnel",
+        "A causeway"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Carytown's western end is marked by which landmark theatre?",
+      "a": [
+        "The Byrd",
+        "The National",
+        "The Altria",
+        "The Broadberry"
+      ],
+      "correct": 0,
+      "seconds": 15
+    },
+    {
+      "q": "What are the rapids running through the city rated up to?",
+      "a": [
+        "Class II",
+        "Class III",
+        "Class IV",
+        "Class V"
+      ],
+      "correct": 2,
+      "seconds": 20
+    }
+  ],
+  "draw": 10
 }

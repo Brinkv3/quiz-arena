@@ -1,0 +1,31 @@
+{
+  "title": "Artificial Intelligence",
+  "slug": "ai",
+  "draw": 10,
+  "questions": [
+    { "q": "What does the T in GPT stand for?", "a": ["Trained", "Transformer", "Transfer", "Tokenizer"], "correct": 1, "seconds": 20 },
+    { "q": "Which 2017 paper introduced the transformer architecture?", "a": ["Deep Residual Learning", "Attention Is All You Need", "ImageNet Classification", "Generative Adversarial Nets"], "correct": 1, "seconds": 20 },
+    { "q": "What is a token, roughly, in a language model?", "a": ["A single letter", "A chunk of text", "A full sentence", "A parameter"], "correct": 1, "seconds": 20 },
+    { "q": "What does RAG stand for?", "a": ["Recursive Agent Generation", "Retrieval Augmented Generation", "Ranked Answer Grouping", "Reinforced Adaptive Gradient"], "correct": 1, "seconds": 20 },
+    { "q": "Which test proposed judging machine intelligence by conversation?", "a": ["The Turing test", "The Church test", "The Minsky test", "The Shannon test"], "correct": 0, "seconds": 20 },
+    { "q": "What is it called when a model states something false with confidence?", "a": ["Overfitting", "Hallucination", "Drift", "Collapse"], "correct": 1, "seconds": 20 },
+    { "q": "In 1997, which chess champion lost to IBM's Deep Blue?", "a": ["Bobby Fischer", "Garry Kasparov", "Magnus Carlsen", "Anatoly Karpov"], "correct": 1, "seconds": 20 },
+    { "q": "Which board game did DeepMind's AlphaGo master?", "a": ["Chess", "Go", "Shogi", "Checkers"], "correct": 1, "seconds": 15 },
+    { "q": "What does a neural network's weight actually represent?", "a": ["Memory usage", "Connection strength", "Processing speed", "Data size"], "correct": 1, "seconds": 20 },
+    { "q": "What does overfitting mean?", "a": ["The model is too small", "It memorizes training data and generalizes poorly", "It trains too slowly", "It uses too much memory"], "correct": 1, "seconds": 20 },
+    { "q": "Which hardware type is most associated with training large models?", "a": ["CPU", "GPU", "SSD", "RAM"], "correct": 1, "seconds": 15 },
+    { "q": "What does the context window of a model refer to?", "a": ["Screen size", "How much text it can consider at once", "Training duration", "Number of users"], "correct": 1, "seconds": 20 },
+    { "q": "In machine learning, what is a label?", "a": ["The model's name", "The correct answer attached to training data", "A type of neuron", "A version number"], "correct": 1, "seconds": 20 },
+    { "q": "What distinguishes unsupervised from supervised learning?", "a": ["No labeled answers", "No computer", "No data", "No training"], "correct": 0, "seconds": 20 },
+    { "q": "Who coined the term artificial intelligence in 1956?", "a": ["Alan Turing", "John McCarthy", "Marvin Minsky", "Claude Shannon"], "correct": 1, "seconds": 20 },
+    { "q": "What does an embedding turn text into?", "a": ["An image", "A list of numbers", "A database row", "Compressed audio"], "correct": 1, "seconds": 20 },
+    { "q": "What is fine-tuning?", "a": ["Training a model further on specific data", "Reducing model size", "Speeding up inference", "Cleaning a dataset"], "correct": 0, "seconds": 20 },
+    { "q": "What does inference mean in this context?", "a": ["Training the model", "Running the model to get output", "Labeling data", "Deleting weights"], "correct": 1, "seconds": 20 },
+    { "q": "What problem do guardrails address?", "a": ["Slow training", "Unsafe or unwanted output", "Storage limits", "Network latency"], "correct": 1, "seconds": 20 },
+    { "q": "In an agent system, what is a tool?", "a": ["A GPU", "An external function the model can call", "A training dataset", "A prompt template"], "correct": 1, "seconds": 20 },
+    { "q": "What does the parameter count of a model roughly indicate?", "a": ["Its speed", "Its size and capacity", "Its accuracy", "Its cost per query"], "correct": 1, "seconds": 20 },
+    { "q": "What is prompt engineering?", "a": ["Building hardware", "Crafting inputs to get better outputs", "Compressing models", "Writing training code"], "correct": 1, "seconds": 20 },
+    { "q": "Which term describes a model's tendency to reflect biases in its training data?", "a": ["Latency", "Algorithmic bias", "Quantization", "Batching"], "correct": 1, "seconds": 20 },
+    { "q": "What is quantization used for?", "a": ["Making models smaller and faster", "Adding new knowledge", "Labeling data", "Encrypting weights"], "correct": 0, "seconds": 20 }
+  ]
+}

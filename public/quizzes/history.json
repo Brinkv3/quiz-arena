@@ -1,0 +1,31 @@
+{
+  "title": "History",
+  "slug": "history",
+  "draw": 10,
+  "questions": [
+    { "q": "In which year did the Berlin Wall fall?", "a": ["1987", "1989", "1991", "1993"], "correct": 1, "seconds": 20 },
+    { "q": "Which empire was ruled by Julius Caesar's successor Augustus?", "a": ["Greek", "Roman", "Persian", "Ottoman"], "correct": 1, "seconds": 15 },
+    { "q": "The Magna Carta was signed in which century?", "a": ["11th", "12th", "13th", "14th"], "correct": 2, "seconds": 20 },
+    { "q": "Which war ended with the Treaty of Versailles?", "a": ["World War I", "World War II", "Franco-Prussian War", "Crimean War"], "correct": 0, "seconds": 20 },
+    { "q": "Who was the first president of the United States?", "a": ["Thomas Jefferson", "George Washington", "John Adams", "Benjamin Franklin"], "correct": 1, "seconds": 15 },
+    { "q": "The Great Wall was built primarily to defend which country?", "a": ["Japan", "China", "Korea", "Mongolia"], "correct": 1, "seconds": 15 },
+    { "q": "In which year did humans first land on the Moon?", "a": ["1967", "1969", "1971", "1973"], "correct": 1, "seconds": 15 },
+    { "q": "The Renaissance began in which country?", "a": ["France", "Italy", "Spain", "England"], "correct": 1, "seconds": 20 },
+    { "q": "Which civilization built Machu Picchu?", "a": ["Aztec", "Inca", "Maya", "Olmec"], "correct": 1, "seconds": 20 },
+    { "q": "The French Revolution began in which year?", "a": ["1776", "1789", "1799", "1812"], "correct": 1, "seconds": 20 },
+    { "q": "Who wrote the Communist Manifesto with Friedrich Engels?", "a": ["Vladimir Lenin", "Karl Marx", "Leon Trotsky", "Joseph Stalin"], "correct": 1, "seconds": 20 },
+    { "q": "Which ancient wonder stood in Alexandria?", "a": ["Hanging Gardens", "The Lighthouse", "Colossus", "Mausoleum"], "correct": 1, "seconds": 20 },
+    { "q": "The Industrial Revolution began in which country?", "a": ["Germany", "Britain", "France", "United States"], "correct": 1, "seconds": 20 },
+    { "q": "Who was the first woman to win a Nobel Prize?", "a": ["Marie Curie", "Rosalind Franklin", "Ada Lovelace", "Dorothy Hodgkin"], "correct": 0, "seconds": 20 },
+    { "q": "The Ottoman Empire was centered on which modern country?", "a": ["Egypt", "Turkey", "Iran", "Greece"], "correct": 1, "seconds": 20 },
+    { "q": "Which document begins We hold these truths to be self-evident?", "a": ["The Constitution", "Declaration of Independence", "Bill of Rights", "Federalist Papers"], "correct": 1, "seconds": 20 },
+    { "q": "Apartheid was a system of segregation in which country?", "a": ["Zimbabwe", "South Africa", "Kenya", "Nigeria"], "correct": 1, "seconds": 20 },
+    { "q": "The Black Death swept Europe in which century?", "a": ["12th", "13th", "14th", "15th"], "correct": 2, "seconds": 20 },
+    { "q": "Who led the nonviolent independence movement in India?", "a": ["Nehru", "Gandhi", "Bose", "Patel"], "correct": 1, "seconds": 15 },
+    { "q": "Which two cities were struck by atomic bombs in 1945?", "a": ["Tokyo and Osaka", "Hiroshima and Nagasaki", "Kyoto and Kobe", "Nagoya and Sapporo"], "correct": 1, "seconds": 20 },
+    { "q": "The Rosetta Stone helped decipher which writing system?", "a": ["Cuneiform", "Egyptian hieroglyphs", "Linear B", "Mayan glyphs"], "correct": 1, "seconds": 20 },
+    { "q": "Which explorer's crew first circumnavigated the globe?", "a": ["Columbus", "Magellan", "Vasco da Gama", "Drake"], "correct": 1, "seconds": 20 },
+    { "q": "The Cold War was primarily between the United States and whom?", "a": ["China", "The Soviet Union", "Germany", "Cuba"], "correct": 1, "seconds": 15 },
+    { "q": "Which pharaoh's tomb was found largely intact in 1922?", "a": ["Ramesses II", "Tutankhamun", "Khufu", "Akhenaten"], "correct": 1, "seconds": 20 }
+  ]
+}

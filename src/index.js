@@ -87,6 +87,16 @@ function cleanName(raw) {
 
 const norm = (n) => n.toLowerCase().replace(/\s+/g, ' ');
 
+/** Fisher-Yates, on a copy. Used for both question order and answer order. */
+function shuffle(list) {
+  const out = list.slice();
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
 export class GameRoom {
   constructor(ctx, env) {
     this.ctx = ctx;
@@ -136,6 +146,7 @@ export class GameRoom {
         created: Date.now(),
         touched: Date.now(),
         phase: 'lobby',
+        pack: null,
         quiz: null,
         qIndex: -1,
         endsAt: 0,
@@ -331,6 +342,7 @@ export class GameRoom {
       if (msg.t === 'start') return this.startQuestion(0);
       if (msg.t === 'skip') return this.closeQuestion();
       if (msg.t === 'next') return this.startQuestion(this.s.qIndex + 1);
+      if (msg.t === 'rematch') return this.rematch();
       return;
     }
 
@@ -370,14 +382,61 @@ export class GameRoom {
       return this.send(ws, { t: 'error', message: 'That quiz has no usable questions.' });
     }
 
-    this.s.quiz = {
+    // Keep the whole pack so a rematch can draw a fresh round from it.
+    this.s.pack = {
       title: String((quiz && quiz.title) || 'Untitled quiz').slice(0, 80),
+      draw: Number.isInteger(quiz && quiz.draw) ? Math.max(1, quiz.draw) : 0,
       questions: clean,
     };
+    this.s.quiz = this.dealRound();
     this.s.phase = 'lobby';
     this.s.qIndex = -1;
     await this.save();
     this.toHosts(this.hostSnapshot());
+  }
+
+  /**
+   * Build one round from the loaded pack: shuffle the questions, take the
+   * draw count if the pack sets one, then shuffle each question's answers.
+   * Called fresh for every game, so no two rounds line up.
+   */
+  dealRound() {
+    const pack = this.s.pack;
+    const pool = shuffle(pack.questions);
+    const take = pack.draw > 0 ? Math.min(pack.draw, pool.length) : pool.length;
+    const questions = pool.slice(0, take).map((q) => {
+      const order = shuffle(q.a.map((_, i) => i));
+      return {
+        q: q.q,
+        a: order.map((i) => q.a[i]),
+        correct: order.indexOf(q.correct),
+        seconds: q.seconds,
+      };
+    });
+    return { title: pack.title, questions };
+  }
+
+  /** Reset scores and deal a new round for whoever is still connected. */
+  async rematch() {
+    if (!this.s.pack) return;
+    for (const key of Object.keys(this.s.players)) {
+      this.s.players[key].score = 0;
+      this.s.players[key].correct = 0;
+    }
+    this.s.quiz = this.dealRound();
+    this.s.phase = 'lobby';
+    this.s.qIndex = -1;
+    this.s.answers = {};
+    this.s.lastReveal = null;
+    this.s.lastFinal = null;
+    await this.save();
+    await this.armIdleAlarm();
+
+    this.toHosts(this.hostSnapshot());
+    for (const ws of this.sockets('player')) {
+      const who = ws.deserializeAttachment() || {};
+      if (this.s.players[who.key]) this.send(ws, this.playerSnapshot(who.key));
+    }
   }
 
   async startQuestion(index) {

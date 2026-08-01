@@ -50,11 +50,13 @@ async function claimed() {
   return { ctx, room, host, sink };
 }
 
+/* Both questions carry four answers so tests can pick any index 0-3.
+   Question order is shuffled on load, so never assume which comes first. */
 const TWO_Q = {
   title: 'Test quiz',
   questions: [
-    { q: 'One?', a: ['a', 'b', 'c', 'd'], correct: 1, seconds: 10 },
-    { q: 'Two?', a: ['a', 'b'], correct: 0, seconds: 10 },
+    { q: 'One?', a: ['1a', '1b', '1c', '1d'], correct: 1, seconds: 10 },
+    { q: 'Two?', a: ['2a', '2b', '2c', '2d'], correct: 0, seconds: 10 },
   ],
 };
 
@@ -129,7 +131,7 @@ test('question length is clamped into range', async () => {
       { q: 'blank', a: ['x', 'y'], correct: 0 },
     ],
   });
-  assert.deepEqual(room.s.quiz.questions.map((q) => q.seconds), [5, 120, 20]);
+  assert.deepEqual(room.s.quiz.questions.map((q) => q.seconds).sort((a, b) => a - b), [5, 20, 120]);
 });
 
 /* ---------------- scoring ---------------- */
@@ -140,7 +142,7 @@ test('an instant correct answer scores the maximum', async () => {
   room.s.players = { ann: { name: 'ann', score: 0, correct: 0 } };
   await room.loadQuiz(host, TWO_Q);
   await room.startQuestion(0);
-  await room.recordAnswer('ann', 1);
+  await room.recordAnswer('ann', room.currentQuestion().correct);
   assert.equal(room.s.players.ann.score, 1000);
 });
 
@@ -151,7 +153,7 @@ test('a slow correct answer scores less, never below half', async () => {
   await room.loadQuiz(host, TWO_Q);
   await room.startQuestion(0);
   // Pretend the answer arrived with the clock nearly out.
-  room.s.answers.ann = { choice: 1, at: room.s.endsAt - 1 };
+  room.s.answers.ann = { choice: room.currentQuestion().correct, at: room.s.endsAt - 1 };
   await room.closeQuestion();
   const score = room.s.players.ann.score;
   assert.ok(score > 500 - 1 && score < 510, 'expected roughly half, got ' + score);
@@ -163,7 +165,8 @@ test('a wrong answer scores nothing', async () => {
   room.s.players = { ann: { name: 'ann', score: 0, correct: 0 } };
   await room.loadQuiz(host, TWO_Q);
   await room.startQuestion(0);
-  await room.recordAnswer('ann', 3);
+  const wrong = (room.currentQuestion().correct + 1) % 4;
+  await room.recordAnswer('ann', wrong);
   assert.equal(room.s.players.ann.score, 0);
   assert.equal(room.s.players.ann.correct, 0);
 });
@@ -180,7 +183,7 @@ test('a second answer from the same player is ignored', async () => {
   await room.loadQuiz(host, TWO_Q);
   await room.startQuestion(0);
   await room.recordAnswer('ann', 3);
-  await room.recordAnswer('ann', 1);
+  await room.recordAnswer('ann', 0);
   assert.equal(room.s.answers.ann.choice, 3);
 });
 
@@ -218,7 +221,7 @@ test('the question closes early once everyone has answered', async () => {
   };
   await room.loadQuiz(host, TWO_Q);
   await room.startQuestion(0);
-  await room.recordAnswer('ann', 1);
+  await room.recordAnswer('ann', 0);
   assert.equal(room.s.phase, 'question');
   await room.recordAnswer('bob', 3);
   assert.equal(room.s.phase, 'reveal');
@@ -233,10 +236,10 @@ test('the reveal tallies every answer and flags the last question', async () => 
   };
   await room.loadQuiz(host, TWO_Q);
   await room.startQuestion(0);
-  await room.recordAnswer('ann', 1);
+  await room.recordAnswer('ann', 0);
   await room.recordAnswer('bob', 3);
-  assert.deepEqual(room.s.lastReveal.tally, [0, 1, 0, 1]);
-  assert.equal(room.s.lastReveal.correct, 1);
+  assert.deepEqual(room.s.lastReveal.tally, [1, 0, 0, 1]);
+  assert.equal(room.s.lastReveal.correct, room.s.quiz.questions[0].correct);
   assert.equal(room.s.lastReveal.isLast, false);
 
   await room.startQuestion(1);
@@ -265,7 +268,7 @@ test('a host rejoining mid-question gets the question and the time left', async 
   await room.startQuestion(0);
   const stage = room.hostStage();
   assert.equal(stage.t, 'question');
-  assert.equal(stage.text, 'One?');
+  assert.ok(['One?', 'Two?'].includes(stage.text));
   assert.ok(stage.seconds > 0 && stage.seconds <= 10);
 });
 
@@ -286,7 +289,7 @@ test('a player rejoining mid-question learns whether they already answered', asy
   };
   await room.loadQuiz(host, TWO_Q);
   await room.startQuestion(0);
-  await room.recordAnswer('ann', 1);
+  await room.recordAnswer('ann', 0);
   assert.equal(room.playerStage('ann').answered, true);
   assert.equal(room.playerStage('bob').answered, false);
   assert.equal(room.playerStage('bob').answers, 4);
@@ -338,4 +341,92 @@ test('a running question keeps its own alarm rather than the idle one', async ()
   const before = ctx._alarm;
   await room.armIdleAlarm();
   assert.equal(ctx._alarm, before, 'idle alarm must not stomp the question clock');
+});
+
+/* ---------------- shuffle, draw, rematch ---------------- */
+
+const BIG = {
+  title: 'Pool',
+  draw: 3,
+  questions: Array.from({ length: 12 }, (_, i) => ({
+    q: 'Q' + i, a: ['a', 'b', 'c', 'd'], correct: i % 4, seconds: 10,
+  })),
+};
+
+test('a pack with draw serves only that many questions', async () => {
+  const { room, host } = await claimed();
+  await room.loadQuiz(host, BIG);
+  assert.equal(room.s.quiz.questions.length, 3);
+  assert.equal(room.s.pack.questions.length, 12, 'full pack is kept');
+});
+
+test('a pack without draw serves everything', async () => {
+  const { room, host } = await claimed();
+  await room.loadQuiz(host, TWO_Q);
+  assert.equal(room.s.quiz.questions.length, 2);
+});
+
+test('draw larger than the pool is capped at the pool', async () => {
+  const { room, host } = await claimed();
+  await room.loadQuiz(host, { title: 'Small', draw: 99, questions: TWO_Q.questions });
+  assert.equal(room.s.quiz.questions.length, 2);
+});
+
+test('shuffling preserves which answer is correct', async () => {
+  const { room, host } = await claimed();
+  // Each answer is distinct so we can follow it through the shuffle.
+  await room.loadQuiz(host, {
+    title: 'Track',
+    questions: [{ q: 'x', a: ['w', 'x', 'y', 'z'], correct: 2, seconds: 10 }],
+  });
+  const q = room.s.quiz.questions[0];
+  assert.equal(q.a[q.correct], 'y', 'correct index must still point at the right answer');
+  assert.equal(q.a.length, 4);
+  assert.deepEqual([...q.a].sort(), ['w', 'x', 'y', 'z'], 'no answers lost or duplicated');
+});
+
+test('dealing repeatedly produces different rounds', async () => {
+  const { room, host } = await claimed();
+  await room.loadQuiz(host, BIG);
+  const rounds = new Set();
+  for (let i = 0; i < 25; i++) {
+    rounds.add(room.dealRound().questions.map((q) => q.q).join(','));
+  }
+  assert.ok(rounds.size > 1, 'drawing from a pool should vary between games');
+});
+
+test('rematch zeroes scores and deals a fresh round', async () => {
+  const { ctx, room, host, sink } = await claimed();
+  addPlayers(ctx, sink, ['ann']);
+  room.s.players = { ann: { name: 'ann', score: 900, correct: 4 } };
+  await room.loadQuiz(host, BIG);
+  await room.startQuestion(0);
+  await room.closeQuestion();
+
+  await room.rematch();
+  assert.equal(room.s.players.ann.score, 0);
+  assert.equal(room.s.players.ann.correct, 0);
+  assert.equal(room.s.phase, 'lobby');
+  assert.equal(room.s.qIndex, -1);
+  assert.equal(room.s.lastReveal, null);
+  assert.equal(room.s.quiz.questions.length, 3);
+});
+
+test('rematch on a room with no pack does nothing', async () => {
+  const { room } = await claimed();
+  await room.rematch();
+  assert.equal(room.s.phase, 'lobby');
+});
+
+test('a rematched game can be played through again', async () => {
+  const { ctx, room, host, sink } = await claimed();
+  addPlayers(ctx, sink, ['ann']);
+  room.s.players = { ann: { name: 'ann', score: 0, correct: 0 } };
+  await room.loadQuiz(host, BIG);
+  await room.rematch();
+  await room.startQuestion(0);
+  assert.equal(room.s.phase, 'question');
+  const q = room.s.quiz.questions[0];
+  await room.recordAnswer('ann', q.correct);
+  assert.ok(room.s.players.ann.score > 0, 'scoring works after a rematch');
 });
