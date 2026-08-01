@@ -33,8 +33,19 @@ h1,h2,h3,.display{font-family:var(--display);font-weight:900;letter-spacing:-.02
 
 .wrap{max-width:1000px;margin:0 auto;padding:20px 18px 64px}
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:var(--rule);padding-bottom:12px;margin-bottom:22px}
-.mark{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:900;font-size:19px;letter-spacing:-.03em}
-.mark .glyphs{display:flex;gap:5px}
+.mark{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:900;font-size:19px;letter-spacing:-.03em;background:none;border:0;padding:6px 8px;margin-left:-8px;color:var(--ink);cursor:default}
+.mark.live{cursor:pointer}
+.mark.live:hover .glyphs{transform:translateX(-3px)}
+.mark .glyphs{display:flex;gap:5px;transition:transform .12s}
+@media(max-width:520px){.mark .word{display:none}}
+
+/* confirm sheet */
+#ask{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(17,17,17,.55)}
+#ask.on{display:flex}
+#ask .box{background:var(--paper);border:var(--rule);box-shadow:var(--drop);padding:24px;max-width:420px;width:100%}
+#ask h2{font-size:24px;text-transform:uppercase;margin-bottom:8px}
+#ask p{margin:0 0 20px;font-size:15px}
+#ask .row{margin:0;justify-content:flex-end}
 .mark i{width:14px;height:14px;display:block}
 .mark .g1{background:var(--red);clip-path:polygon(50% 0,100% 100%,0 100%)}
 .mark .g2{background:var(--blue);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
@@ -166,6 +177,8 @@ input.pin{font-family:var(--mono);font-size:30px;letter-spacing:.35em;text-align
 .err{border:var(--rule);background:var(--red);color:var(--paper);padding:14px;font-weight:700;margin-bottom:18px}
 .resume{border:var(--rule);background:var(--yellow);padding:16px;margin-bottom:22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:space-between}
 .hide{display:none !important}
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50;display:none}
+#confetti.on{display:block}
 
 .qcard{border:var(--rule);box-shadow:var(--drop-sm);padding:18px;margin-bottom:16px}
 .qcard .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
@@ -187,11 +200,26 @@ footer a{color:var(--ink)}
 <div class="wrap">
 
 <div class="topbar">
-  <div class="mark">
+  <button class="mark" id="btnHome" type="button" title="Quiz Arena">
     <span class="glyphs"><i class="g1"></i><i class="g2"></i><i class="g3"></i><i class="g4"></i></span>
-    QUIZ ARENA
+    <span class="word">QUIZ ARENA</span>
+  </button>
+  <div style="display:flex;align-items:center;gap:12px">
+    <button class="btn quiet hide" id="btnSound" aria-pressed="false" title="Sound">Sound off</button>
+    <div class="who mono" id="whoami"></div>
   </div>
-  <div class="who mono" id="whoami"></div>
+</div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<div id="ask" role="dialog" aria-modal="true" aria-labelledby="askHead">
+  <div class="box">
+    <h2 id="askHead"></h2>
+    <p id="askBody"></p>
+    <div class="row">
+      <button class="btn quiet" id="askNo">Stay</button>
+      <button class="btn" id="askYes">Leave</button>
+    </div>
+  </div>
 </div>
 
 <div id="errbox" class="err hide"></div>
@@ -319,12 +347,14 @@ footer a{color:var(--ink)}
     <div class="pts" id="prPts"></div>
   </div>
   <div class="card"><h2 id="prRank"></h2><p class="lede" id="prScore"></p></div>
+  <div class="row"><button class="btn quiet" id="btnLeaveMid">Leave game</button></div>
 </section>
 
 <!-- ============ PLAYER FINAL ============ -->
 <section class="screen" id="s-pf">
   <div class="verdict" id="pfVerdict"><h2 id="pfHead"></h2><div class="pts" id="pfPts"></div></div>
   <div class="board" id="pfBoard"></div>
+  <div class="row"><button class="btn" id="btnLeave">Leave game</button></div>
 </section>
 
 <!-- ============ EDITOR ============ -->
@@ -366,10 +396,219 @@ let ws = null, role = null, pin = null, hostKey = null, myName = null;
 let params = null, everOpened = false, retries = 0, closing = false;
 let timerId = null;
 
+/* ------------------------------------------------------------------
+   Sound. Everything here is synthesized at runtime: no audio files, no
+   licences, nothing to download. Two layers.
+
+   HUM   two detuned sine voices around 62Hz through a low-pass, always
+         on once started. Meant to be felt rather than heard.
+
+   BOP   a nine beat phrase: three even, three quick, three even, then a
+         rest. The stumble in the middle is what stops the ear filing it
+         away as noise. As a question's clock runs down the phrase repeats
+         sooner and drops in pitch. Tempo stays put, because a speeding
+         pulse in a room full of people reads as stress.
+   ------------------------------------------------------------------ */
+const Sound = (() => {
+  let actx = null, master = null, humGain = null, bopGain = null;
+  let humVoices = [], on = false, loopTimer = null;
+  let urgency = 0; // 0 relaxed .. 1 clock nearly out
+
+  // Nine beats over one bar. Offsets are fractions of the bar.
+  const PHRASE = [0, 0.111, 0.222, 0.389, 0.444, 0.5, 0.667, 0.778, 0.889];
+  const BAR_MS = 2600;
+
+  function ctx() {
+    if (!actx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      actx = new AC();
+      master = actx.createGain();
+      master.gain.value = 0.9;
+      master.connect(actx.destination);
+      humGain = actx.createGain();
+      humGain.gain.value = 0;
+      bopGain = actx.createGain();
+      bopGain.gain.value = 0;
+      const lp = actx.createBiquadFilter();
+      lp.type = 'lowpass';
+      lp.frequency.value = 220;
+      humGain.connect(lp).connect(master);
+      bopGain.connect(master);
+    }
+    return actx;
+  }
+
+  /** Short percussive tone. Used for the bop and for every UI blip. */
+  function blip(freq, dur, type, peak, dest) {
+    const a = ctx();
+    if (!a) return;
+    const o = a.createOscillator();
+    const g = a.createGain();
+    o.type = type || 'triangle';
+    o.frequency.setValueAtTime(freq, a.currentTime);
+    g.gain.setValueAtTime(0.0001, a.currentTime);
+    g.gain.exponentialRampToValueAtTime(peak, a.currentTime + 0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001, a.currentTime + dur);
+    o.connect(g).connect(dest || master);
+    o.start();
+    o.stop(a.currentTime + dur + 0.02);
+  }
+
+  function startHum() {
+    const a = ctx();
+    if (!a || humVoices.length) return;
+    for (const detune of [-6, 7]) {
+      const o = a.createOscillator();
+      o.type = 'sine';
+      o.frequency.value = 62;
+      o.detune.value = detune;
+      o.connect(humGain);
+      o.start();
+      humVoices.push(o);
+    }
+    humGain.gain.setTargetAtTime(0.16, a.currentTime, 1.2);
+  }
+
+  function playPhrase() {
+    const a = ctx();
+    if (!a || !on) return;
+    // Lower and slightly louder as the clock runs out.
+    const base = 196 - urgency * 34;
+    PHRASE.forEach((offset, i) => {
+      // The quick middle three sit a little higher and softer.
+      const mid = i >= 3 && i <= 5;
+      const freq = base * (mid ? 1.5 : 1) * (i === 8 ? 0.75 : 1);
+      const peak = (mid ? 0.05 : 0.075) * (0.85 + Math.random() * 0.3) * (1 + urgency * 0.35);
+      // Occasionally let the last beat fall away.
+      if (i === 8 && Math.random() < 0.35) return;
+      setTimeout(() => {
+        if (on) blip(freq, mid ? 0.07 : 0.11, 'triangle', peak, bopGain);
+      }, offset * BAR_MS);
+    });
+  }
+
+  return {
+    get enabled() { return on; },
+
+    /** Must be called from a click: browsers block audio otherwise. */
+    async toggle() {
+      const a = ctx();
+      if (!a) return false;
+      if (a.state === 'suspended') await a.resume();
+      on = !on;
+      if (on) {
+        startHum();
+        bopGain.gain.setTargetAtTime(1, a.currentTime, 0.4);
+      } else {
+        humGain.gain.setTargetAtTime(0, a.currentTime, 0.5);
+        bopGain.gain.setTargetAtTime(0, a.currentTime, 0.3);
+        clearInterval(loopTimer);
+        loopTimer = null;
+      }
+      return on;
+    },
+
+    /** Run the phrase for the length of a question, tightening as it goes. */
+    bed(seconds) {
+      if (!on) return;
+      clearInterval(loopTimer);
+      const started = Date.now();
+      urgency = 0;
+      playPhrase();
+      loopTimer = setInterval(() => {
+        const elapsed = (Date.now() - started) / 1000;
+        urgency = Math.max(0, Math.min(1, elapsed / Math.max(1, seconds)));
+        if (elapsed > seconds + 1) return this.rest();
+        playPhrase();
+      }, BAR_MS * (1 - urgency * 0.18));
+    },
+
+    /** Stop the pulse but leave the hum breathing underneath. */
+    rest() {
+      clearInterval(loopTimer);
+      loopTimer = null;
+      urgency = 0;
+    },
+
+    tap() { if (on) blip(440, 0.06, 'square', 0.09); },
+    lock() { if (on) { blip(523, 0.07, 'square', 0.1); setTimeout(() => blip(784, 0.09, 'square', 0.09), 70); } },
+    right() { if (on) [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => blip(f, 0.16, 'triangle', 0.12), i * 90)); },
+    wrong() { if (on) { blip(150, 0.22, 'sawtooth', 0.09); setTimeout(() => blip(110, 0.3, 'sawtooth', 0.08), 110); } },
+    fanfare() {
+      if (!on) return;
+      [523, 659, 784, 1047, 1319].forEach((f, i) =>
+        setTimeout(() => blip(f, 0.32, 'triangle', 0.13), i * 130));
+    },
+  };
+})();
+
+/* ---------- confetti ---------- */
+function confetti() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cv = $('confetti');
+  const g = cv.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  cv.width = innerWidth * dpr;
+  cv.height = innerHeight * dpr;
+  g.scale(dpr, dpr);
+  cv.classList.add('on');
+
+  const colors = ['#e5322d', '#1b44c8', '#ffc400', '#12a150', '#111111'];
+  const bits = Array.from({ length: 140 }, () => ({
+    x: Math.random() * innerWidth,
+    y: -20 - Math.random() * innerHeight * 0.6,
+    w: 7 + Math.random() * 9,
+    h: 7 + Math.random() * 9,
+    vy: 1.6 + Math.random() * 2.6,
+    vx: -1 + Math.random() * 2,
+    spin: -0.12 + Math.random() * 0.24,
+    rot: Math.random() * Math.PI,
+    shape: Math.floor(Math.random() * 3),
+    color: colors[Math.floor(Math.random() * colors.length)],
+  }));
+
+  const until = Date.now() + 5200;
+  (function frame() {
+    g.clearRect(0, 0, innerWidth, innerHeight);
+    for (const b of bits) {
+      b.y += b.vy;
+      b.x += b.vx;
+      b.rot += b.spin;
+      if (b.y > innerHeight + 30) { b.y = -20; b.x = Math.random() * innerWidth; }
+      g.save();
+      g.translate(b.x, b.y);
+      g.rotate(b.rot);
+      g.fillStyle = b.color;
+      if (b.shape === 0) g.fillRect(-b.w / 2, -b.h / 2, b.w, b.h);
+      else if (b.shape === 1) {
+        g.beginPath();
+        g.arc(0, 0, b.w / 2, 0, Math.PI * 2);
+        g.fill();
+      } else {
+        g.beginPath();
+        g.moveTo(0, -b.h / 2);
+        g.lineTo(b.w / 2, b.h / 2);
+        g.lineTo(-b.w / 2, b.h / 2);
+        g.closePath();
+        g.fill();
+      }
+      g.restore();
+    }
+    if (Date.now() < until) requestAnimationFrame(frame);
+    else { g.clearRect(0, 0, innerWidth, innerHeight); cv.classList.remove('on'); }
+  })();
+}
+
 /* ---------- screens ---------- */
 function show(id) {
   document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('on', s.id === id));
   window.scrollTo(0, 0);
+  const btn = $('btnHome');
+  if (btn) {
+    const live = id === 's-ed' || (!!role && id !== 's-home');
+    btn.classList.toggle('live', live);
+  }
 }
 function fail(msg) {
   const b = $('errbox');
@@ -377,7 +616,10 @@ function fail(msg) {
   b.classList.remove('hide');
   setTimeout(() => b.classList.add('hide'), 7000);
 }
-const whoami = (t) => ($('whoami').textContent = t || '');
+const whoami = (t) => {
+  $('whoami').textContent = t || '';
+  $('btnSound').classList.toggle('hide', !t);
+};
 const conn = (t) => ($('connState').textContent = t || '');
 
 /* ---------- remembered session ---------- */
@@ -521,11 +763,13 @@ function hostQuestion(m) {
     box.appendChild(d);
   });
   runTimer(m.seconds, $('hqBar'), null);
+  Sound.bed(m.seconds);
   show('s-hq');
 }
 
 function hostReveal(m) {
   clearInterval(timerId);
+  Sound.rest();
   $('hrNum').textContent = m.isLast ? 'Last question' : '';
   const top = Math.max(1, ...m.tally);
   const box = $('hrTally');
@@ -574,6 +818,9 @@ function hostFinal(m) {
   }
   drawBoard($('hfBoard'), b);
   show('s-hf');
+  Sound.rest();
+  Sound.fanfare();
+  confetti();
 }
 
 /* ---------- player ---------- */
@@ -591,6 +838,7 @@ function playerQuestion(m) {
       [...pads.children].forEach((c) => { c.disabled = true; });
       b.classList.add('chosen');
       $('paNum').textContent = 'Locked in. Hold tight.';
+      Sound.lock();
     };
     pads.appendChild(b);
   }
@@ -600,11 +848,14 @@ function playerQuestion(m) {
     $('paNum').textContent = 'Already answered. Hold tight.';
   }
   runTimer(m.seconds, $('paBar'), $('paClock'));
+  if (!m.answered) Sound.bed(m.seconds);
   show('s-pa');
 }
 
 function playerResult(m) {
   clearInterval(timerId);
+  Sound.rest();
+  m.correct ? Sound.right() : Sound.wrong();
   $('prVerdict').className = 'verdict ' + (m.correct ? 'hit' : 'miss');
   $('prHead').textContent = m.correct ? 'Correct' : (m.answered ? 'Not that one' : 'Too slow');
   $('prPts').textContent = m.gained ? '+' + m.gained : '+0';
@@ -619,6 +870,9 @@ function playerFinal(m) {
   $('pfPts').textContent = m.score + ' points';
   drawBoard($('pfBoard'), m.podium);
   show('s-pf');
+  Sound.rest();
+  Sound.fanfare();
+  if (m.rank <= 3) confetti();
 }
 
 function playerWaiting(text) {
@@ -773,6 +1027,82 @@ $('btnJoin').onclick = () => {
   if (p.length !== 6) return fail('The PIN is six digits.');
   if (!n) return fail('Pick a nickname first.');
   joinGame(p, n);
+};
+
+/* ---------- confirm sheet ---------- */
+let askResolve = null;
+function ask(head, body, yes) {
+  $('askHead').textContent = head;
+  $('askBody').textContent = body;
+  $('askYes').textContent = yes;
+  $('ask').classList.add('on');
+  $('askYes').focus();
+  return new Promise((res) => { askResolve = res; });
+}
+function closeAsk(answer) {
+  $('ask').classList.remove('on');
+  if (askResolve) { askResolve(answer); askResolve = null; }
+}
+$('askNo').onclick = () => closeAsk(false);
+$('askYes').onclick = () => closeAsk(true);
+$('ask').onclick = (e) => { if (e.target === $('ask')) closeAsk(false); };
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && $('ask').classList.contains('on')) closeAsk(false);
+});
+
+/** The logo doubles as the way out. What it means depends on where you are. */
+function currentExit() {
+  if ($('s-ed').classList.contains('on')) return 'editor';
+  if (!role) return null;
+  return role;
+}
+$('btnHome').onclick = async () => {
+  const where = currentExit();
+  if (!where) return;
+  if (where === 'editor') return goHome();
+  if (where === 'host') {
+    const done = $('s-hf').classList.contains('on');
+    const ok = await ask(
+      done ? 'End this game?' : 'End the game for everyone?',
+      done
+        ? 'Scores are already final. This closes the room and returns you to the start.'
+        : 'Every player will be dropped and the scores will be lost. The PIN stops working.',
+      'End game'
+    );
+    if (ok) leaveGame();
+    return;
+  }
+  const ok = await ask('Leave this game?', 'You will drop out and lose your place in the standings.', 'Leave');
+  if (ok) leaveGame();
+};
+function goHome() {
+  show('s-home');
+}
+
+function leaveGame() {
+  closing = true;
+  Sound.rest();
+  clearInterval(timerId);
+  try { if (ws) ws.close(); } catch (_) {}
+  ws = null;
+  role = null;
+  myName = null;
+  forget();
+  whoami('');
+  conn('');
+  $('joinPin').value = '';
+  $('joinName').value = '';
+  showResume();
+  show('s-home');
+}
+$('btnLeave').onclick = leaveGame;
+$('btnLeaveMid').onclick = leaveGame;
+
+$('btnSound').onclick = async () => {
+  const now = await Sound.toggle();
+  $('btnSound').textContent = now ? 'Sound on' : 'Sound off';
+  $('btnSound').setAttribute('aria-pressed', String(now));
+  if (now) Sound.tap();
 };
 
 $('btnBegin').onclick = () => send({ t: 'start' });

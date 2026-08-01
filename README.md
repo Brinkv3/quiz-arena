@@ -84,6 +84,34 @@ framework.
 Players can only join before question one. A room deletes itself after six idle
 hours, so PINs recycle.
 
+## Getting out
+
+The logo in the header is the way back. It is inert on the front page and turns
+into a live control once you are in the editor or a game: back to the start from
+the editor, leave the game as a player, end the game as a host. Anything with
+consequences asks first.
+
+This matters most when the site has been added to a phone's home screen, since a
+standalone window has no browser back button. Players can also leave from the
+buttons on the result and final screens.
+
+## Sound
+
+Off by default. The toggle appears in the header once you are in a game, and it
+has to be pressed by hand because browsers block audio that starts on its own.
+
+There are no audio files. Everything is synthesized in the browser with the Web
+Audio API, so there is nothing to download and nothing to license. Two layers run
+during a question: a low hum from two slightly detuned sine voices, and a nine
+beat phrase, three even, three quick, three even. As the clock runs down the
+phrase repeats a little sooner and drops in pitch. Tempo stays where it is, on
+the theory that a speeding pulse in a room full of people reads as stress rather
+than fun.
+
+Answering, getting it right, getting it wrong, and the final podium each have
+their own short cue. The podium also throws confetti, drawn on a canvas and
+skipped entirely when the browser asks for reduced motion.
+
 ### If a connection drops
 
 Sockets reconnect on their own, backing off over eight attempts. A player who
