@@ -56,6 +56,13 @@
     "draw": 10
   },
   {
+    "slug": "sports-big4",
+    "title": "Sports: The Big Four and Beyond",
+    "file": "sports-big4.json",
+    "count": 144,
+    "draw": 12
+  },
+  {
     "slug": "taylor-swift",
     "title": "Taylor Swift",
     "file": "taylor-swift.json",

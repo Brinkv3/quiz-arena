@@ -74,7 +74,7 @@ export default {
 const MAX_PLAYERS = 60;
 const MAX_NAME = 16;
 const MAX_MESSAGE_BYTES = 64 * 1024;
-const MAX_QUESTIONS = 100;
+const MAX_QUESTIONS = 500;
 const IDLE_MS = 6 * 60 * 60 * 1000; // rooms self-destruct after 6 idle hours
 const RATE_WINDOW_MS = 60 * 60 * 1000;
 

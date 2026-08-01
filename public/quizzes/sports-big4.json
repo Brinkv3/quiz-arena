@@ -1,0 +1,1591 @@
+{
+  "title": "Sports: The Big Four and Beyond",
+  "slug": "sports-big4",
+  "draw": 12,
+  "questions": [
+    {
+      "q": "Wilt Chamberlain's legendary 100-point game came against which team in 1962?",
+      "a": [
+        "Boston Celtics",
+        "New York Knicks",
+        "Los Angeles Lakers",
+        "St. Louis Hawks"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "How many games long was Joe DiMaggio's 1941 hitting streak?",
+      "a": [
+        "44",
+        "49",
+        "56",
+        "61"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "Cy Young finished his career with how many wins, a record considered untouchable?",
+      "a": [
+        "417",
+        "463",
+        "511",
+        "540"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "Which team completed the NFL's only perfect season including the Super Bowl?",
+      "a": [
+        "1985 Bears",
+        "1972 Dolphins",
+        "2007 Patriots",
+        "1962 Packers"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Cal Ripken Jr.'s consecutive games streak ended at what number?",
+      "a": [
+        "2,130",
+        "2,401",
+        "2,632",
+        "2,780"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "Which quarterback won seven Super Bowls?",
+      "a": [
+        "Joe Montana",
+        "Tom Brady",
+        "Terry Bradshaw",
+        "Peyton Manning"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Barry Bonds hit how many home runs in the 2001 season?",
+      "a": [
+        "70",
+        "71",
+        "73",
+        "75"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "The Miracle on Ice saw the U.S. beat which country in 1980?",
+      "a": [
+        "Canada",
+        "Sweden",
+        "Soviet Union",
+        "Czechoslovakia"
+      ],
+      "correct": 2,
+      "seconds": 15
+    },
+    {
+      "q": "Which player famously wore number 23 for the Chicago Bulls?",
+      "a": [
+        "Scottie Pippen",
+        "Michael Jordan",
+        "Dennis Rodman",
+        "Horace Grant"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Rickey Henderson holds the career stolen base record with roughly how many?",
+      "a": [
+        "938",
+        "1,064",
+        "1,406",
+        "1,588"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "How many points did the 1995-96 Bulls win in the regular season, an NBA record at the time?",
+      "a": [
+        "69",
+        "70",
+        "72",
+        "74"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "The Stanley Cup is the oldest trophy competed for by professional athletes in which region?",
+      "a": [
+        "Europe",
+        "North America",
+        "Asia",
+        "South America"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which NFL team has won the most Super Bowls alongside New England?",
+      "a": [
+        "Dallas Cowboys",
+        "Pittsburgh Steelers",
+        "San Francisco 49ers",
+        "Green Bay Packers"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Hank Aaron's career home run total was what?",
+      "a": [
+        "714",
+        "755",
+        "762",
+        "660"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "What is the term for three strikes in a row in bowling?",
+      "a": [
+        "Hat trick",
+        "Turkey",
+        "Triple",
+        "Spare cycle"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Which Boston Celtics legend won 11 championships as a player?",
+      "a": [
+        "Bob Cousy",
+        "Bill Russell",
+        "John Havlicek",
+        "Larry Bird"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "The Immaculate Reception belongs to which franchise's lore?",
+      "a": [
+        "Raiders",
+        "Steelers",
+        "Browns",
+        "Chiefs"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "How long is an NBA regular season in games?",
+      "a": [
+        "72",
+        "80",
+        "82",
+        "86"
+      ],
+      "correct": 2,
+      "seconds": 15
+    },
+    {
+      "q": "How many games are in a Major League Baseball regular season?",
+      "a": [
+        "154",
+        "162",
+        "170",
+        "180"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Which pitcher threw a perfect game in the World Series?",
+      "a": [
+        "Sandy Koufax",
+        "Don Larsen",
+        "Bob Gibson",
+        "Whitey Ford"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Jackie Robinson broke baseball's color barrier with which team?",
+      "a": [
+        "New York Giants",
+        "Brooklyn Dodgers",
+        "Boston Braves",
+        "Cleveland Indians"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "His number 42 is retired across all of MLB. Whose is it?",
+      "a": [
+        "Willie Mays",
+        "Jackie Robinson",
+        "Hank Aaron",
+        "Roberto Clemente"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "The Malice at the Palace brawl involved which two NBA teams?",
+      "a": [
+        "Pistons and Pacers",
+        "Knicks and Heat",
+        "Bulls and Pistons",
+        "Lakers and Kings"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "Which running back set the single-season rushing record with 2,105 yards in 1984?",
+      "a": [
+        "Walter Payton",
+        "O.J. Simpson",
+        "Eric Dickerson",
+        "Barry Sanders"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "The Music City Miracle involved a controversial what?",
+      "a": [
+        "Fumble",
+        "Lateral on a kickoff",
+        "Pass interference",
+        "Field goal"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which golfer won the Masters at age 21 in 1997 by 12 strokes?",
+      "a": [
+        "Phil Mickelson",
+        "Tiger Woods",
+        "Ernie Els",
+        "Justin Leonard"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Secretariat won the 1973 Belmont Stakes by roughly how many lengths?",
+      "a": [
+        "11",
+        "21",
+        "31",
+        "41"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "Which boxer declared himself The Greatest?",
+      "a": [
+        "Joe Frazier",
+        "Muhammad Ali",
+        "George Foreman",
+        "Sugar Ray Leonard"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "The Rumble in the Jungle took place in which country?",
+      "a": [
+        "Kenya",
+        "Zaire",
+        "Nigeria",
+        "Ghana"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "How many career points did Wayne Gretzky finish with in the NHL?",
+      "a": [
+        "1,850",
+        "2,205",
+        "2,857",
+        "3,110"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "Which NBA player scored 81 points in a single game in 2006?",
+      "a": [
+        "Kevin Durant",
+        "Kobe Bryant",
+        "LeBron James",
+        "Allen Iverson"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "The Fenway Park left field wall is nicknamed what?",
+      "a": [
+        "The Monster Wall",
+        "The Green Monster",
+        "The Wall of Boston",
+        "The Big Green"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Which MLB stadium features an ivy-covered outfield wall?",
+      "a": [
+        "Fenway Park",
+        "Wrigley Field",
+        "Yankee Stadium",
+        "Dodger Stadium"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "How many players are on the ice per team at even strength in hockey, including the goalie?",
+      "a": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "What is a Gordie Howe hat trick?",
+      "a": [
+        "Three goals",
+        "A goal, an assist, and a fight",
+        "Three assists",
+        "Three penalties"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "The Heidi Game is remembered because a network did what?",
+      "a": [
+        "Lost the feed",
+        "Cut away to a movie",
+        "Missed kickoff",
+        "Aired the wrong game"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which NFL award goes to the best player of the championship game?",
+      "a": [
+        "Lombardi Award",
+        "Super Bowl MVP",
+        "Halas Trophy",
+        "Rozelle Prize"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Nolan Ryan holds the career record for what pitching statistic?",
+      "a": [
+        "Wins",
+        "Strikeouts",
+        "Saves",
+        "Shutouts"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "How many no-hitters did Nolan Ryan throw?",
+      "a": [
+        "4",
+        "5",
+        "7",
+        "9"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "The Curse of the Bambino was broken in which year?",
+      "a": [
+        "2001",
+        "2004",
+        "2007",
+        "2013"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which team ended a 108-year World Series drought in 2016?",
+      "a": [
+        "Cleveland",
+        "Chicago Cubs",
+        "Boston",
+        "Chicago White Sox"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "The Shot Heard 'Round the World was hit by whom in 1951?",
+      "a": [
+        "Bobby Thomson",
+        "Ralph Branca",
+        "Willie Mays",
+        "Duke Snider"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "Willie Mays' famous over-the-shoulder catch is simply known as what?",
+      "a": [
+        "The Grab",
+        "The Catch",
+        "The Steal",
+        "The Play"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which NFL play is known as The Catch?",
+      "a": [
+        "Montana to Clark",
+        "Bradshaw to Swann",
+        "Manning to Tyree",
+        "Starr to Dowler"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "The Helmet Catch happened in which Super Bowl matchup?",
+      "a": [
+        "Giants and Patriots",
+        "Ravens and 49ers",
+        "Steelers and Cardinals",
+        "Saints and Colts"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "How many teams make the NBA playoffs from each conference in the main bracket?",
+      "a": [
+        "6",
+        "8",
+        "10",
+        "12"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which NBA center was known as The Dream?",
+      "a": [
+        "Patrick Ewing",
+        "Hakeem Olajuwon",
+        "David Robinson",
+        "Shaquille O'Neal"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Kareem Abdul-Jabbar's signature shot was called what?",
+      "a": [
+        "The fadeaway",
+        "The skyhook",
+        "The finger roll",
+        "The jump hook"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which hockey player is nicknamed The Great One?",
+      "a": [
+        "Mario Lemieux",
+        "Wayne Gretzky",
+        "Gordie Howe",
+        "Bobby Orr"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Bobby Orr's famous flying goal won which trophy in 1970?",
+      "a": [
+        "Hart Trophy",
+        "Stanley Cup",
+        "Art Ross",
+        "Norris Trophy"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "How many outs are in a full nine-inning baseball game for both teams combined?",
+      "a": [
+        "27",
+        "45",
+        "51",
+        "54"
+      ],
+      "correct": 3,
+      "seconds": 20
+    },
+    {
+      "q": "What does ERA measure in baseball?",
+      "a": [
+        "Earned run average",
+        "Effective run allowance",
+        "Estimated relief average",
+        "Extra runs allowed"
+      ],
+      "correct": 0,
+      "seconds": 15
+    },
+    {
+      "q": "A triple-double in basketball requires double figures in how many categories?",
+      "a": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Which player averaged a triple-double for a full NBA season in 2016-17?",
+      "a": [
+        "James Harden",
+        "Russell Westbrook",
+        "LeBron James",
+        "Chris Paul"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Oscar Robertson was the first to average a triple-double for a season in which decade?",
+      "a": [
+        "1950s",
+        "1960s",
+        "1970s",
+        "1980s"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "The NFL draft's first overall pick belongs to the team with what record?",
+      "a": [
+        "Best record",
+        "Worst record",
+        "Most injuries",
+        "Random lottery"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Mr. Irrelevant is the nickname for which NFL draft selection?",
+      "a": [
+        "First pick",
+        "Last pick",
+        "First undrafted",
+        "Compensatory pick"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which soccer player scored the Hand of God goal in 1986?",
+      "a": [
+        "Pele",
+        "Diego Maradona",
+        "Zico",
+        "Careca"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Usain Bolt's 100 meter world record is roughly what time?",
+      "a": [
+        "9.48",
+        "9.58",
+        "9.68",
+        "9.78"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which swimmer won eight gold medals at a single Olympics in 2008?",
+      "a": [
+        "Ryan Lochte",
+        "Michael Phelps",
+        "Ian Thorpe",
+        "Caeleb Dressel"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Nadia Comaneci scored the first perfect 10 in Olympic gymnastics in which year?",
+      "a": [
+        "1972",
+        "1976",
+        "1980",
+        "1984"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which tennis surface is Wimbledon played on?",
+      "a": [
+        "Clay",
+        "Grass",
+        "Hard court",
+        "Carpet"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "How many innings does a baseball pitcher need to complete for a quality start?",
+      "a": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "In the NFL, how many yards must a team gain for a first down?",
+      "a": [
+        "5",
+        "10",
+        "15",
+        "20"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "What is the diameter of a basketball hoop in inches?",
+      "a": [
+        "16",
+        "18",
+        "20",
+        "24"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "How far is the pitcher's mound from home plate in MLB?",
+      "a": [
+        "55 feet",
+        "58 feet 6 inches",
+        "60 feet 6 inches",
+        "63 feet"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "How long is an NBA three-point line at the top of the arc?",
+      "a": [
+        "21 feet 9 inches",
+        "22 feet",
+        "23 feet 9 inches",
+        "25 feet"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "Which team plays its home games at Lambeau Field?",
+      "a": [
+        "Chicago Bears",
+        "Green Bay Packers",
+        "Minnesota Vikings",
+        "Detroit Lions"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "The Packers are unusual among NFL teams because they are what?",
+      "a": [
+        "Publicly owned",
+        "Family owned",
+        "League owned",
+        "City owned"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "The Ice Bowl was played in temperatures around what?",
+      "a": [
+        "10 above zero",
+        "Zero",
+        "13 below zero",
+        "30 below zero"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "Which NBA franchise has won the most championships alongside Boston?",
+      "a": [
+        "Chicago Bulls",
+        "Los Angeles Lakers",
+        "Golden State Warriors",
+        "San Antonio Spurs"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Magic Johnson and Larry Bird's rivalry began in which college championship?",
+      "a": [
+        "1977",
+        "1979",
+        "1981",
+        "1983"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "What is the maximum number of games in a modern MLB World Series?",
+      "a": [
+        "5",
+        "7",
+        "9",
+        "11"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Which position is credited with a save in baseball?",
+      "a": [
+        "Starting pitcher",
+        "Relief pitcher",
+        "Catcher",
+        "Shortstop"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "A grand slam in baseball scores how many runs?",
+      "a": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correct": 2,
+      "seconds": 15
+    },
+    {
+      "q": "The Buffalo Bills lost how many consecutive Super Bowls in the early 1990s?",
+      "a": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "In American football, how many points is a safety worth?",
+      "a": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Who broke Roger Maris's single-season home run mark in 1998 alongside Sammy Sosa?",
+      "a": [
+        "Ken Griffey Jr.",
+        "Mark McGwire",
+        "Barry Bonds",
+        "Jose Canseco"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Roger Maris's 1961 home run total was what?",
+      "a": [
+        "58",
+        "60",
+        "61",
+        "63"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "Which NBA team went 73-9 in the 2015-16 regular season?",
+      "a": [
+        "Cleveland Cavaliers",
+        "Golden State Warriors",
+        "San Antonio Spurs",
+        "Oklahoma City Thunder"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which team came back from a 3-1 Finals deficit in 2016?",
+      "a": [
+        "Golden State Warriors",
+        "Cleveland Cavaliers",
+        "Toronto Raptors",
+        "Boston Celtics"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "The New England Patriots overcame a 28-3 deficit against which team?",
+      "a": [
+        "Seattle Seahawks",
+        "Atlanta Falcons",
+        "Philadelphia Eagles",
+        "Los Angeles Rams"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which sport awards the Vince Lombardi Trophy?",
+      "a": [
+        "Basketball",
+        "American football",
+        "Baseball",
+        "Hockey"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Hockey's penalty box is informally called what?",
+      "a": [
+        "The bin",
+        "The sin bin",
+        "The cooler",
+        "The bench"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "What is icing in hockey?",
+      "a": [
+        "A goalie penalty",
+        "Shooting the puck past the far goal line illegally",
+        "A type of shot",
+        "An overtime rule"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "In baseball, what does a golden sombrero refer to?",
+      "a": [
+        "Four hits",
+        "Four strikeouts",
+        "Four walks",
+        "Four errors"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "The Immaculate Grid style trivia often centers on players who did what?",
+      "a": [
+        "Played for two given teams",
+        "Won MVP",
+        "Retired early",
+        "Switched sports"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "Bo Jackson was famous for playing which two professional sports?",
+      "a": [
+        "Football and baseball",
+        "Basketball and baseball",
+        "Football and hockey",
+        "Baseball and golf"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "Deion Sanders also played which sport alongside NFL football?",
+      "a": [
+        "Basketball",
+        "Baseball",
+        "Hockey",
+        "Track only"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Michael Jordan's baseball stint was with an affiliate of which MLB club?",
+      "a": [
+        "Chicago Cubs",
+        "Chicago White Sox",
+        "Milwaukee Brewers",
+        "Kansas City Royals"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "The 1985 Chicago Bears are remembered for which defensive scheme?",
+      "a": [
+        "Tampa 2",
+        "The 46",
+        "The Steel Curtain",
+        "Cover 3"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which quarterback threw The Drive's opposing touchdown in 1987 for Denver?",
+      "a": [
+        "Dan Marino",
+        "John Elway",
+        "Jim Kelly",
+        "Boomer Esiason"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "What is a walk-off in baseball?",
+      "a": [
+        "A pitcher's ejection",
+        "A game-ending hit by the home team",
+        "An intentional walk",
+        "A rain delay"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "How many periods of overtime does the NHL playoffs use before a shootout?",
+      "a": [
+        "One",
+        "Two",
+        "Three",
+        "Unlimited, no shootout"
+      ],
+      "correct": 3,
+      "seconds": 20
+    },
+    {
+      "q": "Which term describes scoring three goals in one soccer or hockey game?",
+      "a": [
+        "Triple",
+        "Hat trick",
+        "Treble",
+        "Trifecta"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Kobe Bryant's two jersey numbers with the Lakers were what?",
+      "a": [
+        "8 and 24",
+        "10 and 23",
+        "5 and 24",
+        "8 and 34"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "Which MLB award goes to the best pitcher in each league?",
+      "a": [
+        "Cy Young Award",
+        "Silver Slugger",
+        "Gold Glove",
+        "Hank Aaron Award"
+      ],
+      "correct": 0,
+      "seconds": 15
+    },
+    {
+      "q": "The Gold Glove Award recognizes excellence in what?",
+      "a": [
+        "Hitting",
+        "Fielding",
+        "Pitching",
+        "Baserunning"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "How many quarters are in an NFL game?",
+      "a": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correct": 2,
+      "seconds": 15
+    },
+    {
+      "q": "The shot clock in the NBA lasts how many seconds?",
+      "a": [
+        "20",
+        "24",
+        "30",
+        "35"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Which NBA franchise drafted LeBron James first overall in 2003?",
+      "a": [
+        "Miami Heat",
+        "Cleveland Cavaliers",
+        "Detroit Pistons",
+        "Denver Nuggets"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "The Decision in 2010 saw LeBron James join which team?",
+      "a": [
+        "Miami Heat",
+        "New York Knicks",
+        "Chicago Bulls",
+        "Los Angeles Lakers"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "Which sport uses the term love for a score of zero?",
+      "a": [
+        "Golf",
+        "Tennis",
+        "Cricket",
+        "Badminton"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "The Triple Crown in horse racing consists of how many races?",
+      "a": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "In baseball, a Triple Crown for a hitter means leading in which three?",
+      "a": [
+        "Hits, runs, RBIs",
+        "Average, home runs, RBIs",
+        "Doubles, triples, homers",
+        "Walks, average, steals"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which NFL team relocated and became the Baltimore Ravens?",
+      "a": [
+        "Cleveland Browns",
+        "Houston Oilers",
+        "St. Louis Cardinals",
+        "Los Angeles Raiders"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "How many players from each team are on a basketball court at once?",
+      "a": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "A perfect game in baseball means how many batters reach base?",
+      "a": [
+        "Zero",
+        "One",
+        "Three",
+        "Fewer than five"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "Which position wears a different colored jersey in volleyball?",
+      "a": [
+        "Setter",
+        "Libero",
+        "Outside hitter",
+        "Middle blocker"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Jesse Owens won four gold medals at which Olympics?",
+      "a": [
+        "1932 Los Angeles",
+        "1936 Berlin",
+        "1948 London",
+        "1952 Helsinki"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which NBA player is known as The Greek Freak?",
+      "a": [
+        "Nikola Jokic",
+        "Giannis Antetokounmpo",
+        "Luka Doncic",
+        "Kristaps Porzingis"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Tom Brady was selected in which round of the NFL draft?",
+      "a": [
+        "First",
+        "Third",
+        "Sixth",
+        "Seventh"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "Which NFL running back holds the single-game rushing record with 296 yards?",
+      "a": [
+        "Adrian Peterson",
+        "Jerome Bettis",
+        "Corey Dillon",
+        "Walter Payton"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "The Fumble and The Drive both tormented which franchise in the 1980s?",
+      "a": [
+        "Cleveland Browns",
+        "Buffalo Bills",
+        "Houston Oilers",
+        "Minnesota Vikings"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "Which coach has the Super Bowl trophy named after him?",
+      "a": [
+        "Don Shula",
+        "Vince Lombardi",
+        "Tom Landry",
+        "Chuck Noll"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "How many players are on an NFL team's active game-day roster, roughly?",
+      "a": [
+        "35",
+        "46",
+        "53",
+        "65"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Jerry Rice holds the NFL career record for what?",
+      "a": [
+        "Rushing yards",
+        "Receiving yards",
+        "Passing yards",
+        "Sacks"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which NBA player holds the record for most career three-pointers made?",
+      "a": [
+        "Ray Allen",
+        "Stephen Curry",
+        "Reggie Miller",
+        "James Harden"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "The Flu Game featured Michael Jordan against which team?",
+      "a": [
+        "Utah Jazz",
+        "Portland Trail Blazers",
+        "Phoenix Suns",
+        "Seattle SuperSonics"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "Which NBA team drafted Kobe Bryant before trading him on draft night?",
+      "a": [
+        "Charlotte Hornets",
+        "New Jersey Nets",
+        "Portland Trail Blazers",
+        "Atlanta Hawks"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "Dennis Rodman led the NBA in which statistic for seven straight seasons?",
+      "a": [
+        "Steals",
+        "Rebounds",
+        "Blocks",
+        "Assists"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which player was famously listed at 7 foot 7, among the tallest in NBA history?",
+      "a": [
+        "Yao Ming",
+        "Manute Bol",
+        "Shawn Bradley",
+        "Mark Eaton"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which pitcher struck out 20 batters in a nine-inning game more than once?",
+      "a": [
+        "Randy Johnson",
+        "Roger Clemens",
+        "Pedro Martinez",
+        "Nolan Ryan"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "The Mendoza Line refers to a batting average of roughly what?",
+      "a": [
+        ".180",
+        ".200",
+        ".220",
+        ".250"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which team plays home games at Yankee Stadium?",
+      "a": [
+        "New York Mets",
+        "New York Yankees",
+        "Brooklyn Dodgers",
+        "New York Giants"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Babe Ruth was famously sold to the Yankees by which team?",
+      "a": [
+        "Boston Red Sox",
+        "Baltimore Orioles",
+        "Chicago Cubs",
+        "Philadelphia Athletics"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "What does the K symbol represent on a baseball scorecard?",
+      "a": [
+        "A walk",
+        "A strikeout",
+        "A catch",
+        "A run"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Which MLB team's fans famously wave a rally towel colored what in Pittsburgh?",
+      "a": [
+        "Black",
+        "Gold",
+        "White",
+        "Yellow"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "How many minutes are in a regulation soccer match, excluding stoppage?",
+      "a": [
+        "80",
+        "90",
+        "100",
+        "120"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Which country hosted and won the first FIFA World Cup in 1930?",
+      "a": [
+        "Brazil",
+        "Uruguay",
+        "Italy",
+        "Argentina"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Pele won how many World Cups as a player?",
+      "a": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "Which club competition is Europe's most prestigious?",
+      "a": [
+        "Europa League",
+        "Champions League",
+        "Club World Cup",
+        "Super Cup"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which tennis player has won the most career Grand Slam singles titles among women in the Open Era?",
+      "a": [
+        "Steffi Graf",
+        "Serena Williams",
+        "Martina Navratilova",
+        "Chris Evert"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "How many majors are there in professional golf each year?",
+      "a": [
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "correct": 1,
+      "seconds": 15
+    },
+    {
+      "q": "Which golf major is always played at the same course?",
+      "a": [
+        "The Masters",
+        "US Open",
+        "The Open",
+        "PGA Championship"
+      ],
+      "correct": 0,
+      "seconds": 20
+    },
+    {
+      "q": "A hole in one on a par 3 is also called what?",
+      "a": [
+        "Eagle",
+        "Ace",
+        "Albatross",
+        "Condor"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which country has won the most Olympic gold medals all time?",
+      "a": [
+        "Soviet Union",
+        "United States",
+        "China",
+        "Germany"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "The modern Olympic Games were revived in which year?",
+      "a": [
+        "1876",
+        "1896",
+        "1900",
+        "1912"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Which race is known as the Greatest Spectacle in Racing?",
+      "a": [
+        "Daytona 500",
+        "Indianapolis 500",
+        "Monaco Grand Prix",
+        "Le Mans"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "In Formula 1, what color flag signals the end of a race?",
+      "a": [
+        "Red",
+        "Yellow",
+        "Checkered",
+        "Blue"
+      ],
+      "correct": 2,
+      "seconds": 15
+    },
+    {
+      "q": "Which athlete was stripped of his 1988 Olympic 100m gold for doping?",
+      "a": [
+        "Carl Lewis",
+        "Ben Johnson",
+        "Linford Christie",
+        "Calvin Smith"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "Wilma Rudolph overcame polio to win three golds in which sport?",
+      "a": [
+        "Swimming",
+        "Track and field",
+        "Gymnastics",
+        "Diving"
+      ],
+      "correct": 1,
+      "seconds": 20
+    },
+    {
+      "q": "The Iron Man triathlon ends with a race of what distance?",
+      "a": [
+        "10K",
+        "Half marathon",
+        "Full marathon",
+        "50K"
+      ],
+      "correct": 2,
+      "seconds": 20
+    },
+    {
+      "q": "Which sport features the Green Jacket as a prize?",
+      "a": [
+        "Tennis",
+        "Golf",
+        "Polo",
+        "Rowing"
+      ],
+      "correct": 1,
+      "seconds": 15
+    }
+  ]
+}
