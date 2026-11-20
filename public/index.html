@@ -83,7 +83,7 @@ button{font-family:inherit;font-weight:700;color:var(--ink);cursor:pointer}
 .hero p{margin:14px 0 0;max-width:44ch}
 .bars{display:flex;height:22px;margin-top:22px;border:3px solid var(--ink)}
 .bars span{flex:1}
-.split{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:22px}
 @media(max-width:720px){.split{grid-template-columns:1fr}}
 .card{border:var(--rule);box-shadow:var(--drop-sm);padding:22px}
 .card h2{font-size:24px;text-transform:uppercase;margin-bottom:6px}
@@ -128,6 +128,22 @@ input.pin{font-family:var(--mono);font-size:30px;letter-spacing:.35em;text-align
 .opt.c1 .sh{background:var(--blue);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
 .opt.c2 .sh{background:var(--yellow);border-radius:50%}
 .opt.c3 .sh{background:var(--green)}
+
+/* solo answer buttons reuse .opt, with picked and revealed states */
+button.opt{cursor:pointer;transition:transform .06s,box-shadow .06s}
+button.opt:hover:not([disabled]){transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+button.opt[disabled]{cursor:default}
+.opt.faded{opacity:.35}
+.opt.hit{background:var(--green);color:var(--paper);box-shadow:var(--drop)}
+.opt.miss{background:var(--red);color:var(--paper)}
+.opt .tag{margin-left:auto;font-size:12px;letter-spacing:.12em;white-space:nowrap}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.stat{border:3px solid var(--ink);padding:8px 14px;font-weight:700;font-size:15px}
+.stat b{font-family:var(--mono);font-weight:500}
+.stat.streak{background:var(--yellow)}
+.solofeed{border:var(--rule);box-shadow:var(--drop-sm);padding:16px 20px;margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;font-weight:700}
+.solofeed.hit{background:var(--green);color:var(--paper)}
+.solofeed.miss{background:var(--red);color:var(--paper)}
 
 .pads{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:620px;margin:0 auto}
 .pad{position:relative;border:var(--rule);box-shadow:var(--drop);min-height:130px;display:flex;align-items:center;justify-content:center;background:var(--paper)}
@@ -257,6 +273,17 @@ footer a{color:var(--ink)}
     </div>
 
     <div class="card">
+      <h2>Play solo</h2>
+      <p class="lede">No PIN, no waiting. Just you against the clock.</p>
+      <label class="field">
+        <span>Quiz pack</span>
+        <select id="soloPick"></select>
+      </label>
+      <button class="btn" id="btnSolo" style="width:100%">Start solo</button>
+      <p class="note" style="margin-top:16px">Runs entirely in this browser.</p>
+    </div>
+
+    <div class="card">
       <h2>Join a game</h2>
       <p class="lede">Enter the six digits on the host's screen.</p>
       <label class="field">
@@ -356,6 +383,41 @@ footer a{color:var(--ink)}
   <div class="board" id="pfBoard"></div>
   <p class="note" id="pfNote">Stay put if your host runs another round.</p>
   <div class="row"><button class="btn" id="btnLeave">Leave game</button></div>
+</section>
+
+<!-- ============ SOLO PLAY ============ -->
+<section class="screen" id="s-sq">
+  <div class="qhead"><span id="sqNum"></span><span id="sqClock" class="mono"></span></div>
+  <div class="stats">
+    <span class="stat">Score <b id="sqScore">0</b></span>
+    <span class="stat">Correct <b id="sqRight">0</b></span>
+    <span class="stat streak hide" id="sqStreakBox">Streak <b id="sqStreak">0</b></span>
+  </div>
+  <div class="qtext" id="sqText"></div>
+  <div class="timer"><i id="sqBar"></i></div>
+  <div class="grid4" id="sqOpts"></div>
+  <div class="solofeed hide" id="sqFeed">
+    <span id="sqFeedText"></span>
+    <button class="btn quiet" id="btnSoloNext">Next</button>
+  </div>
+</section>
+
+<!-- ============ SOLO FINAL ============ -->
+<section class="screen" id="s-sf">
+  <div class="verdict" id="sfVerdict"><h2 id="sfHead"></h2><div class="pts" id="sfPts"></div></div>
+  <div class="stats" style="margin-bottom:22px">
+    <span class="stat">Correct <b id="sfRight"></b></span>
+    <span class="stat">Accuracy <b id="sfAcc"></b></span>
+    <span class="stat streak">Best streak <b id="sfStreak"></b></span>
+  </div>
+  <div class="card" style="margin-bottom:22px">
+    <h2>Personal best</h2>
+    <p class="lede" id="sfBest"></p>
+  </div>
+  <div class="row">
+    <button class="btn" id="btnSoloAgain">Play again</button>
+    <button class="btn quiet" id="btnSoloDone">Back</button>
+  </div>
 </section>
 
 <!-- ============ EDITOR ============ -->
@@ -460,7 +522,7 @@ function show(id) {
   window.scrollTo(0, 0);
   const btn = $('btnHome');
   if (btn) {
-    const live = id === 's-ed' || (!!role && id !== 's-home');
+    const live = id === 's-ed' || id === 's-sq' || id === 's-sf' || (!!role && id !== 's-home');
     btn.classList.toggle('live', live);
   }
 }
@@ -486,7 +548,9 @@ function recall() {
 /* ---------- quiz packs ---------- */
 async function loadManifest() {
   const sel = $('packPick');
+  const solo = $('soloPick');
   sel.innerHTML = '';
+  solo.innerHTML = '';
   try {
     const packs = await (await fetch('quizzes/manifest.json')).json();
     for (const p of packs) {
@@ -494,14 +558,18 @@ async function loadManifest() {
       const o = el('option', null, p.title + ' \u2014 ' + n + ' questions');
       o.value = p.file;
       sel.appendChild(o);
+      const o2 = o.cloneNode(true);
+      o2.value = p.file;
+      solo.appendChild(o2);
     }
     const want = new URLSearchParams(location.search).get('quiz');
     if (want) {
       const hit = packs.find((p) => p.slug === want);
-      if (hit) sel.value = hit.file;
+      if (hit) { sel.value = hit.file; solo.value = hit.file; }
     }
   } catch (_) {
     sel.appendChild(el('option', null, 'No packs found in /quizzes'));
+    solo.appendChild(el('option', null, 'No packs found in /quizzes'));
   }
 }
 
@@ -874,6 +942,182 @@ $('btnJoin').onclick = () => {
   joinGame(p, n);
 };
 
+
+/* ------------------------------------------------------------------
+   Solo play. Runs entirely in the browser: no room, no PIN, no socket.
+   The shuffle and draw below mirror dealRound() in the Worker. Two
+   copies of fifteen lines beats making one player pay for a server
+   round trip they do not need.
+   ------------------------------------------------------------------ */
+const Solo = (() => {
+  let pack = null, qs = [], i = 0, score = 0, right = 0;
+  let streak = 0, best = 0, answered = false, tick = null, startedAt = 0;
+
+  const shuffle = (list) => {
+    const out = list.slice();
+    for (let n = out.length - 1; n > 0; n--) {
+      const j = Math.floor(Math.random() * (n + 1));
+      [out[n], out[j]] = [out[j], out[n]];
+    }
+    return out;
+  };
+
+  function deal(p) {
+    const pool = shuffle(p.questions || []);
+    const take = p.draw > 0 ? Math.min(p.draw, pool.length) : pool.length;
+    return pool.slice(0, take).map((q) => {
+      const order = shuffle(q.a.map((_, n) => n));
+      return {
+        q: q.q,
+        a: order.map((n) => q.a[n]),
+        correct: order.indexOf(q.correct),
+        seconds: Math.min(120, Math.max(5, Number(q.seconds) || 20)),
+      };
+    });
+  }
+
+  /* Personal bests are a nicety. If storage is unavailable, play on. */
+  function bestFor(slug) {
+    try { return JSON.parse(localStorage.getItem('qa-best-' + slug) || 'null'); }
+    catch (_) { return null; }
+  }
+  function saveBest(slug, rec) {
+    try { localStorage.setItem('qa-best-' + slug, JSON.stringify(rec)); }
+    catch (_) { /* private browsing, or storage full */ }
+  }
+
+  function render() {
+    const q = qs[i];
+    answered = false;
+    $('sqNum').textContent = 'Question ' + (i + 1) + ' of ' + qs.length;
+    $('sqText').textContent = q.q;
+    $('sqScore').textContent = score;
+    $('sqRight').textContent = right;
+    $('sqStreakBox').classList.toggle('hide', streak < 2);
+    $('sqStreak').textContent = streak;
+    $('sqFeed').classList.add('hide');
+
+    const box = $('sqOpts');
+    box.innerHTML = '';
+    q.a.forEach((text, n) => {
+      const b = el('button', 'opt c' + n);
+      b.appendChild(el('span', 'sh'));
+      b.appendChild(el('span', null, text));
+      b.onclick = () => answer(n);
+      box.appendChild(b);
+    });
+
+    startedAt = Date.now();
+    clearInterval(tick);
+    const bar = $('sqBar');
+    const total = q.seconds * 1000;
+    const step = () => {
+      const left = Math.max(0, total - (Date.now() - startedAt));
+      bar.style.width = (left / total) * 100 + '%';
+      $('sqClock').textContent = Math.ceil(left / 1000) + 's';
+      if (left <= 0) { clearInterval(tick); if (!answered) answer(-1); }
+    };
+    step();
+    tick = setInterval(step, 200);
+    show('s-sq');
+  }
+
+  function answer(choice) {
+    if (answered) return;
+    answered = true;
+    clearInterval(tick);
+    const q = qs[i];
+    const total = q.seconds * 1000;
+    const elapsed = Math.min(total, Date.now() - startedAt);
+    const hit = choice === q.correct;
+
+    let gained = 0;
+    if (hit) {
+      gained = Math.round(1000 * (1 - 0.5 * (elapsed / total)));
+      score += gained;
+      right += 1;
+      streak += 1;
+      best = Math.max(best, streak);
+    } else {
+      streak = 0;
+    }
+
+    [...$('sqOpts').children].forEach((b, n) => {
+      b.disabled = true;
+      if (n === q.correct) { b.classList.add('hit'); b.appendChild(el('span', 'tag', 'CORRECT')); }
+      else if (n === choice) b.classList.add('miss');
+      else b.classList.add('faded');
+    });
+
+    $('sqScore').textContent = score;
+    $('sqRight').textContent = right;
+    $('sqStreakBox').classList.toggle('hide', streak < 2);
+    $('sqStreak').textContent = streak;
+
+    const feed = $('sqFeed');
+    feed.className = 'solofeed ' + (hit ? 'hit' : 'miss');
+    let line = hit ? 'Correct. +' + gained : (choice === -1 ? 'Out of time.' : 'Not that one.');
+    if (hit && streak >= 3) line += '  ' + streak + ' in a row.';
+    $('sqFeedText').textContent = line;
+    $('btnSoloNext').textContent = i + 1 >= qs.length ? 'See results' : 'Next';
+    $('btnSoloNext').focus();
+  }
+
+  function next() {
+    if (i + 1 >= qs.length) return finish();
+    i += 1;
+    render();
+  }
+
+  function finish() {
+    clearInterval(tick);
+    const acc = Math.round((right / qs.length) * 100);
+    const slug = pack.slug || pack.title;
+    const prev = bestFor(slug);
+    const beat = !prev || score > prev.score;
+
+    $('sfVerdict').className = 'verdict ' + (acc >= 60 ? 'hit' : 'miss');
+    $('sfHead').textContent = (beat && prev) ? 'New personal best'
+      : (acc >= 60 ? 'Nicely done' : 'Room to improve');
+    $('sfPts').textContent = score + ' points';
+    $('sfRight').textContent = right + '/' + qs.length;
+    $('sfAcc').textContent = acc + '%';
+    $('sfStreak').textContent = best;
+
+    if (prev) {
+      $('sfBest').textContent = beat
+        ? 'You beat your old best of ' + prev.score + ' on ' + pack.title + '.'
+        : 'Your best on ' + pack.title + ' is ' + prev.score + ', set with ' + prev.right + ' correct.';
+    } else {
+      $('sfBest').textContent = 'First run on ' + pack.title + '. This is the score to beat.';
+    }
+    if (beat) saveBest(slug, { score, right, of: qs.length, streak: best });
+
+    show('s-sf');
+    if (acc >= 60) confetti();
+  }
+
+  return {
+    get active() { return !!pack; },
+    start(p) {
+      qs = deal(p);
+      if (!qs.length) return fail('That pack has no questions.');
+      pack = p;
+      i = 0; score = 0; right = 0; streak = 0; best = 0;
+      whoami('SOLO');
+      render();
+    },
+    next,
+    again() { if (pack) this.start(pack); },
+    stop() {
+      clearInterval(tick);
+      pack = null; qs = []; answered = false;
+      whoami('');
+      goHome();
+    },
+  };
+})();
+
 /* ---------- confirm sheet ---------- */
 let askResolve = null;
 function ask(head, body, yes) {
@@ -898,6 +1142,7 @@ document.addEventListener('keydown', (e) => {
 /** The logo doubles as the way out. What it means depends on where you are. */
 function currentExit() {
   if ($('s-ed').classList.contains('on')) return 'editor';
+  if (Solo.active) return 'solo';
   if (!role) return null;
   return role;
 }
@@ -905,6 +1150,12 @@ $('btnHome').onclick = async () => {
   const where = currentExit();
   if (!where) return;
   if (where === 'editor') return goHome();
+  if (where === 'solo') {
+    if ($('s-sf').classList.contains('on')) return Solo.stop();
+    const ok = await ask('Quit this run?', 'Your score for this round will not be saved.', 'Quit');
+    if (ok) Solo.stop();
+    return;
+  }
   if (where === 'host') {
     const done = $('s-hf').classList.contains('on');
     const ok = await ask(
@@ -941,6 +1192,19 @@ function leaveGame() {
 }
 $('btnLeave').onclick = leaveGame;
 $('btnLeaveMid').onclick = leaveGame;
+
+$('btnSolo').onclick = async () => {
+  const file = $('soloPick').value;
+  if (!file) return fail('No quiz pack selected.');
+  try {
+    Solo.start(await (await fetch('quizzes/' + file)).json());
+  } catch (_) {
+    fail('That pack would not load.');
+  }
+};
+$('btnSoloNext').onclick = () => Solo.next();
+$('btnSoloAgain').onclick = () => Solo.again();
+$('btnSoloDone').onclick = () => Solo.stop();
 
 $('btnBegin').onclick = () => send({ t: 'start' });
 $('btnSkip').onclick = () => send({ t: 'skip' });
@@ -997,12 +1261,13 @@ $('btnHostDraft').onclick = () => {
 
 /* laptop players: 1-4 picks an answer */
 document.addEventListener('keydown', (e) => {
-  if (!$('s-pa').classList.contains('on')) return;
   if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const solo = $('s-sq').classList.contains('on');
+  if (!solo && !$('s-pa').classList.contains('on')) return;
   const n = Number(e.key);
   if (!Number.isInteger(n) || n < 1 || n > 4) return;
-  const pad = $('paPads').children[n - 1];
-  if (pad && !pad.disabled) { e.preventDefault(); pad.click(); }
+  const target = (solo ? $('sqOpts') : $('paPads')).children[n - 1];
+  if (target && !target.disabled) { e.preventDefault(); target.click(); }
 });
 
 /* deep link: ?pin=123456 prefills the join form */

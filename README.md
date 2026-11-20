@@ -93,6 +93,26 @@ browser asks for reduced motion.
 There is no sound. A generated audio bed was built and then removed: it is kept
 in `parked/sound-engine.js` with notes on how to wire it back in.
 
+## Solo play
+
+A third option on the front page: pick a pack and play alone, questions and
+answers on the same screen. It runs entirely in the browser — no room, no PIN,
+no socket, nothing against the Worker quota — so it starts instantly and works
+offline once the page is loaded.
+
+Answering reveals the correct option immediately, with a running score, correct
+count, and a streak counter that appears at two in a row. The end screen shows
+accuracy and best streak, and keeps a personal best per pack in the browser's
+local storage. Storage is best effort: in a private window or with site data
+blocked, the game plays identically and simply does not remember the score.
+
+The shuffle and draw in the client mirror `dealRound()` in the Worker. That is
+two copies of about fifteen lines, kept deliberately: making a single player pay
+for a server round trip they do not need would be the worse trade. One
+consequence worth knowing — solo scores are computed in the browser and are
+therefore trivially forgeable. That is fine for a personal best. Any public
+leaderboard would need solo to run as a one-player server room instead.
+
 ## Getting out
 
 The logo in the header is the way back. It is inert on the front page and turns
@@ -175,6 +195,33 @@ No API keys or secrets, so the repo is safe to make public.
 No web fonts and no CDN. Type is a system stack, so the page renders the same
 offline, on a locked-down network, or with the network partly broken.
 
-Nicknames are stripped of control characters and capped at sixteen. Rooms cap at
-sixty players. Each player gets one answer per question, and a nickname already
-connected to a game cannot be taken by someone else.
+## Security posture
+
+No API keys or secrets, so the repo is safe to make public. Zero runtime
+dependencies: the only package is `wrangler`, and it never ships to production.
+
+**Authority.** The host holds a random 128 bit key returned when the room is
+created. Knowing a PIN lets you join and answer; it does not let you start
+questions, load a quiz, advance, or trigger a rematch. Every host command checks
+the socket's role, so a player who crafts one gets ignored.
+
+**Input.** Nicknames are stripped of control characters, bidi overrides, and
+zero-width joiners, then capped at sixteen. Quiz titles, questions, and answers
+are truncated rather than rejected, and question length is clamped to 5 to 120
+seconds. Anything that parses as JSON but is not a plain object is discarded
+before it is read, so a bare `null` cannot take a room down. Answer choices must
+be integers inside the current question's range.
+
+**Rendering.** The client never assigns user-controlled data to `innerHTML`. All
+text goes through `textContent`, so a nickname containing markup displays as
+literal text. There is no `eval`, no `new Function`, and no remote script.
+
+**Limits.** Twenty room creations per hour per IP. Sixty players per room. One
+answer per player per question, and a nickname already connected cannot be taken
+by someone else. Every rejection is decided before a socket is allocated, so a
+refused request costs nothing. Rooms delete themselves after six idle hours.
+
+**Known and accepted.** PINs are six digits, so with many rooms live at once a
+determined guesser could stumble into one; the blast radius is joining a trivia
+game. Joining is not rate limited. Anyone with the URL can host, which is the
+intended behavior rather than an oversight.
